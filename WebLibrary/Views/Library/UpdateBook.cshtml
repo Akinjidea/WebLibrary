@@ -1,0 +1,29 @@
+﻿@model WebLibrary.ViewModels.Books.BookModel;
+@{
+    ViewBag.Title = "Редактирование книги";
+}
+<form asp-action="updateBook" asp-controller="library">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Имя</label>
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Описание</label>
+        <input type="text" asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Year" class="control-label">Год выпуска</label>
+        <input type="number" asp-for="Year" class="form-control" />
+        <span asp-validation-for="Year"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author" class="control-label">Автор книги</label>
+        <input type="text" asp-for="Author" class="form-control" />
+        <span asp-validation-for="Author"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-default border-dark" />
+    </div>
+</form>

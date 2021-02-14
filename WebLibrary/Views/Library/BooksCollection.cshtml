@@ -1,0 +1,27 @@
+﻿@model List<WebLibrary.ViewModels.Books.BookModel>
+@{
+    ViewBag.Title = "Библиотека";
+}
+
+<br />
+<table class="table">
+    <tr><th>Номер</th><th>Название</th><th>Описание</th><th>Год</th><th>Автор</th><th colspan="2">Манипуляция</th></tr>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Id</td>
+            <td>@book.Name</td>
+            <td>@book.Description</td>
+            <td>@book.Author</td>
+            <td>@book.Year</td>
+            <td><a asp-action="UpdateBook" asp-route-id="@book.Id">Изменить</a></td>
+            <td><a asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
+        </tr>
+    }
+</table>
+<br/>
+<div align="center">
+    <a asp-controller="Library" asp-action="AddBook">
+        <input type="button" class="btn btn-default border-dark" value="Добавить книгу" />
+    </a>
+</div>
