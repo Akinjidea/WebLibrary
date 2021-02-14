@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using WebLibrary.ViewModels.Books;
 
 namespace WebLibrary.Controllers
 {
+    [Authorize]
     public class LibraryController : Controller
     {
         ApplicationContext _db;
@@ -45,7 +47,13 @@ namespace WebLibrary.Controllers
             }
             else
             {
-                _db.Books.Add(new Book { Name = bookModel.Name, Description = bookModel.Description, Year = bookModel.Year, AuthorId = hasAuthor.Author.Id, UserId = 1 });
+                _db.Books.Add(new Book { 
+                    Name = bookModel.Name, 
+                    Description = bookModel.Description, 
+                    Year = bookModel.Year, 
+                    AuthorId = hasAuthor.Author.Id, 
+                    UserId = _db.Users.Where(e => e.Email == User.Identity.Name).Select(i => i.Id).FirstOrDefault()
+                });
                 await _db.SaveChangesAsync();
                 return RedirectToAction("BooksCollection");
             }

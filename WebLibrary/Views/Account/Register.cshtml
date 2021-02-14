@@ -1,0 +1,37 @@
+﻿@model WebLibrary.ViewModels.Accounts.RegisterModel
+
+<form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label">Введите имя</label>
+        <input type="text" asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label">Введите фамилию</label>
+        <input type="text" asp-for="LastName" class="form-control"/>
+        <span asp-validation-for="LastName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Age" class="control-label">Введите возраст</label>
+        <input type="text" asp-for="Age" class="form-control"/>
+        <span asp-validation-for="Age" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Введите Email</label>
+        <input type="text" asp-for="Email" class="form-control"/>
+        <span asp-validation-for="Email" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label">Введите пароль</label>
+        <input type="password" asp-for="Password" class="form-control"/>
+        <span asp-validation-for="Password" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="control-label">Подтвердите пароль</label>
+        <input type="password" asp-for="ConfirmPassword" class="form-control"/>
+        <span asp-validation-for="ConfirmPassword" />
+    </div>
+    <div align="center" class="form-group">
+        <input type="submit" value="Зарегистрироваться" class="btn btn-outline-dark"/>
+    </div>
+</form>
