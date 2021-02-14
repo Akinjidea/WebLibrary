@@ -20,10 +20,47 @@ namespace WebLibrary.Controllers
             _db = applicationContext;
         }
         
-        public async Task<IActionResult> BooksCollection()
+        public async Task<IActionResult> BooksCollection(string sortOrder)
         {
-            List<BookModel> books = await _db.Books.Include(a => a.Author)
-                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Author = b.Author.FullName }).ToListAsync();
+            ViewData["IdSortParam"] = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewData["NameSortParam"] = sortOrder == "book" ? "book_desc" : "book";
+            ViewData["DescriptionSortParam"] = sortOrder == "desc" ? "desc_desc" : "desc";
+            ViewData["AuthorSortParam"] = sortOrder == "author" ? "author_desc" : "author";
+            ViewData["YearSortParam"] = sortOrder == "year" ? "year_desc" : "year";
+            List<Book> books;
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Id).ToListAsync();
+                    break;
+                case "book":
+                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Name).ToListAsync();
+                    break;
+                case "book_desc":
+                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Name).ToListAsync();
+                    break;
+                case "desc":
+                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Description).ToListAsync();
+                    break;
+                case "desc_desc":
+                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Description).ToListAsync();
+                    break;
+                case "author":
+                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Author).ToListAsync();
+                    break;
+                case "author_desc":
+                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Author).ToListAsync();
+                    break;
+                case "year":
+                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Year).ToListAsync();
+                    break;
+                case "year_desc":
+                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Year).ToListAsync();
+                    break;
+                default:
+                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Id).ToListAsync();
+                    break;
+            }
             return View(books);
         }
 
@@ -38,7 +75,7 @@ namespace WebLibrary.Controllers
             if(bookModel.Year <= 0)
             {
                 ModelState.AddModelError("Year", "Год должен быть положительным.");
-                return View();
+                return View(bookModel);
             }
             var hasAuthor = _db.Books.Include(a => a.Author).FirstOrDefault(a => a.Author.FullName == bookModel.Author);
             if (hasAuthor == null)
@@ -78,7 +115,7 @@ namespace WebLibrary.Controllers
             if (bookModel.Year <= 0)
             {
                 ModelState.AddModelError("Year", "Год должен быть положительным.");
-                return View();
+                return View(bookModel);
             }
 
             var hasAuthor = _db.Books.Include(a => a.Author).FirstOrDefault(a => a.Author.FullName == bookModel.Author);
