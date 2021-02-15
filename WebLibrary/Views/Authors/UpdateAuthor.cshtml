@@ -1,0 +1,25 @@
+﻿@model WebLibrary.ViewModels.Authors.AuthorModel
+@{
+    ViewBag.Title = "Редактирование автора";
+}
+
+<form asp-action="UpdateAuthor" asp-controller="Authors">
+    <div class="form-group">
+        <label asp-for="FullName" class="control-label">Полное имя</label>
+        <input type="text" asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="YearBirth" class="control-label">Год рождения</label>
+        <input type="number" asp-for="YearBirth" class="form-control" />
+        <span asp-validation-for="YearBirth"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="YearDeath" class="control-label">Год смерти</label>
+        <input type="number" asp-for="YearDeath" class="form-control" />
+        <span asp-validation-for="YearDeath"></span>
+    </div>
+    <div align="center" class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-default border-dark" />
+    </div>
+</form>

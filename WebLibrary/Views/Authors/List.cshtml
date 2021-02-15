@@ -1,0 +1,34 @@
+﻿@model List<WebLibrary.ViewModels.Authors.AuthorModel>
+@{
+    ViewBag.Title = "Авторы";
+}
+
+<br />
+<table class="table">
+    <tr>
+        <th>Номер</th>
+        <th>Полное имя</th>
+        <th>Год рождения</th>
+        <th>Год смерти</th>
+        <th>Количество книг</th>
+        <th colspan="2">Манипуляция</th>
+    </tr>
+    @foreach (var author in Model)
+    {
+        <tr>
+            <td>@author.Id</td>
+            <td>@author.FullName</td>
+            <td>@author.YearBirth</td>
+            <td>@author.YearDeath</td>
+            <td>@author.BookCount</td>
+            <td><a asp-action="UpdateAuthor" asp-route-id="@author.Id">Изменить</a></td>
+            <td><a asp-action="DeleteAuthor" asp-route-id="@author.Id">Удалить</a></td>
+        </tr>
+    }
+</table>
+<div align="center">
+    <a asp-controller="Authors" asp-action="AddAuthor">
+        <input type="button" class="btn btn-default border-dark" value="Добавить автора" />
+    </a>
+    <br />
+</div>

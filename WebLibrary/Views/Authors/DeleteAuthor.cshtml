@@ -1,0 +1,29 @@
+﻿@model WebLibrary.ViewModels.Authors.AuthorModel;
+@{
+    ViewBag.Title = "Удаление автора";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>Полное имя</dt>
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt>Год рождения</dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearBirth)
+        </dd>
+        <dt>Год смерти</dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearDeath)
+        </dd>
+    </dl>
+
+    <div>
+        <form asp-controller="authors" asp-action="deleteAuthor" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn-default border-danger" value="Удалить" />
+            </div>
+        </form>
+    </div>
+</div>
