@@ -20,6 +20,7 @@ namespace WebLibrary.Controllers
             _db = applicationContext;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> List()
         {
             List<AuthorModel> authors = await _db.Authors.Include(a => a.Books)

@@ -20,45 +20,55 @@ namespace WebLibrary.Controllers
             _db = applicationContext;
         }
         
-        public async Task<IActionResult> BooksCollection(string sortOrder)
+        [AllowAnonymous]
+        public async Task<IActionResult> BooksCollection(string search, string sortOrder)
         {
             ViewData["IdSortParam"] = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewData["NameSortParam"] = sortOrder == "book" ? "book_desc" : "book";
             ViewData["DescriptionSortParam"] = sortOrder == "desc" ? "desc_desc" : "desc";
             ViewData["AuthorSortParam"] = sortOrder == "author" ? "author_desc" : "author";
             ViewData["YearSortParam"] = sortOrder == "year" ? "year_desc" : "year";
-            List<Book> books;
+            ViewData["SearchParam"] = search;
+
+            List<Book> books = null;
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                books = await _db.Books.Include(a => a.Author).Where(a => a.Name.Contains(search)).ToListAsync();
+            }
+            else books = await _db.Books.Include(a => a.Author).ToListAsync();
+
             switch (sortOrder)
             {
                 case "id_desc":
-                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Id).ToListAsync();
+                    books = books.OrderByDescending(a => a.Id).ToList();
                     break;
                 case "book":
-                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Name).ToListAsync();
+                    books = books.OrderBy(a => a.Name).ToList();
                     break;
                 case "book_desc":
-                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Name).ToListAsync();
+                    books = books.OrderByDescending(a => a.Name).ToList();
                     break;
                 case "desc":
-                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Description).ToListAsync();
+                    books = books.OrderBy(a => a.Description).ToList();
                     break;
                 case "desc_desc":
-                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Description).ToListAsync();
+                    books = books.OrderByDescending(a => a.Description).ToList();
                     break;
                 case "author":
-                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Author).ToListAsync();
+                    books = books.OrderBy(a => a.Author).ToList();
                     break;
                 case "author_desc":
-                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Author).ToListAsync();
+                    books = books.OrderByDescending(a => a.Author).ToList();
                     break;
                 case "year":
-                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Year).ToListAsync();
+                    books = books.OrderBy(a => a.Year).ToList();
                     break;
                 case "year_desc":
-                    books = await _db.Books.Include(a => a.Author).OrderByDescending(a => a.Year).ToListAsync();
+                    books = books.OrderByDescending(a => a.Year).ToList();
                     break;
                 default:
-                    books = await _db.Books.Include(a => a.Author).OrderBy(a => a.Id).ToListAsync();
+                    books = books.OrderBy(a => a.Id).ToList();
                     break;
             }
             return View(books);

@@ -1,4 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Домашняя страница";
 }
+<div align="center">
+    <label style="margin-top:20px; font-size: 20pt">Найти книгу</label>
+    <form>
+        <input style="width: 250px; margin-top: 10px" type="text" name="search" id="search" class="form-control" />
+        <span class="field-validation-valid" data-valmsg-for="search" data-valmsg-replace="true"></span>
 
+        <div align="center" class="form-group">
+            <input style="margin-top: 20px" type="submit" value="Найти" asp-action="BooksCollection" asp-controller="Library" class="btn btn-default border-dark" />
+        </div>
+    </form>
+</div>

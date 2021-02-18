@@ -7,19 +7,19 @@
 <table class="table">
     <tr>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["IdSortParam"]">Номер</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["IdSortParam"]" asp-route-search="@ViewData["SearchParam"]" >Номер</a>
         </th>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["NameSortParam"]">Название</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-search="@ViewData["SearchParam"]" >Название</a>
         </th>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["DescriptionSortParam"]">Описание</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["DescriptionSortParam"]" asp-route-search="@ViewData["SearchParam"]" >Описание</a>
         </th>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["YearSortParam"]">Год</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["YearSortParam"]" asp-route-search="@ViewData["SearchParam"]" >Год</a>
         </th>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AuthorSortParam"]">Автор</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AuthorSortParam"]" asp-route-search="@ViewData["SearchParam"]" >Автор</a>
         </th>
         <th colspan="2">Манипуляция</th>
     </tr>
