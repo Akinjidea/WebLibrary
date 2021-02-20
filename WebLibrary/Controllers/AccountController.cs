@@ -75,6 +75,7 @@ namespace WebLibrary.Controllers
                         LastName = model.LastName,
                         Age = model.Age,
                         Email = model.Email,
+                        Login = model.Login,
                         Password = model.Password
                     });
 

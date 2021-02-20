@@ -21,6 +21,9 @@ namespace WebLibrary.ViewModels.Accounts
         [EmailAddress(ErrorMessage ="Некорректный адрес почты")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage ="Не указан логин")]
+        public string Login { get; set; }
+
         [Required(ErrorMessage = "Не указан пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }

@@ -28,6 +28,7 @@ namespace WebLibrary.Controllers
             ViewData["DescriptionSortParam"] = sortOrder == "desc" ? "desc_desc" : "desc";
             ViewData["AuthorSortParam"] = sortOrder == "author" ? "author_desc" : "author";
             ViewData["YearSortParam"] = sortOrder == "year" ? "year_desc" : "year";
+            ViewData["AddDateSortParam"] = sortOrder == "addDate" ? "addDate_desc" : "addDate";
             ViewData["SearchParam"] = search;
 
             List<Book> books = null;
@@ -67,6 +68,12 @@ namespace WebLibrary.Controllers
                 case "year_desc":
                     books = books.OrderByDescending(a => a.Year).ToList();
                     break;
+                case "addDate":
+                    books = books.OrderBy(a => a.AdditionDate).ToList();
+                    break;
+                case "addDate_desc":
+                    books = books.OrderByDescending(a => a.AdditionDate).ToList();
+                    break;
                 default:
                     books = books.OrderBy(a => a.Id).ToList();
                     break;
@@ -84,21 +91,23 @@ namespace WebLibrary.Controllers
         {            
             if(bookModel.Year <= 0)
             {
-                ModelState.AddModelError("Year", "Год должен быть положительным.");
+                ModelState.AddModelError("Year", "Год должен быть положительным!");
                 return View(bookModel);
             }
-            var hasAuthor = _db.Books.Include(a => a.Author).FirstOrDefault(a => a.Author.FullName == bookModel.Author);
+            var hasAuthor = _db.Authors.FirstOrDefault(a => a.FullName == bookModel.Author);
             if (hasAuthor == null)
             {
-                ModelState.AddModelError("Author", "Такого автора не существует в базе данных.");
+                ModelState.AddModelError("Author", "Такого автора не существует в базе данных!");
             }
             else
             {
                 _db.Books.Add(new Book { 
                     Name = bookModel.Name, 
                     Description = bookModel.Description, 
-                    Year = bookModel.Year, 
-                    AuthorId = hasAuthor.Author.Id, 
+                    Year = bookModel.Year,
+                    Genre = bookModel.Genre,
+                    AdditionDate = DateTime.Now,
+                    AuthorId = hasAuthor.Id, 
                     UserId = _db.Users.Where(e => e.Email == User.Identity.Name).Select(i => i.Id).FirstOrDefault()
                 });
                 await _db.SaveChangesAsync();
@@ -112,7 +121,7 @@ namespace WebLibrary.Controllers
             if (id != null)
             {
                 BookModel book = await _db.Books.Include(a => a.Author).Where(i => i.Id == id)
-                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Author = b.Author.FullName }).FirstOrDefaultAsync();
+                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Genre = b.Genre, Author = b.Author.FullName }).FirstOrDefaultAsync();
 
                 if (book != null)
                     return View(book);
@@ -124,14 +133,14 @@ namespace WebLibrary.Controllers
         {
             if (bookModel.Year <= 0)
             {
-                ModelState.AddModelError("Year", "Год должен быть положительным.");
+                ModelState.AddModelError("Year", "Год должен быть положительным!");
                 return View(bookModel);
             }
 
-            var hasAuthor = _db.Books.Include(a => a.Author).FirstOrDefault(a => a.Author.FullName == bookModel.Author);
+            var hasAuthor = _db.Authors.FirstOrDefault(a => a.FullName == bookModel.Author);
             if (hasAuthor == null)
             {
-                ModelState.AddModelError("Author", "Такого автора не существует в базе данных.");
+                ModelState.AddModelError("Author", "Такого автора не существует в базе данных!");
             }
             else
             {
@@ -139,7 +148,9 @@ namespace WebLibrary.Controllers
                 book.Name = bookModel.Name;
                 book.Description = bookModel.Description;
                 book.Year = bookModel.Year;
-                book.AuthorId = hasAuthor.Author.Id;
+                book.Genre = bookModel.Genre;
+                book.AdditionDate = DateTime.Now;
+                book.AuthorId = hasAuthor.Id;
 
                 _db.Books.Update(book);
                 await _db.SaveChangesAsync();
@@ -155,7 +166,7 @@ namespace WebLibrary.Controllers
             if (id != null)
             {
                 BookModel book = await _db.Books.Include(a => a.Author).Where(i => i.Id == id)
-                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Author = b.Author.FullName }).FirstOrDefaultAsync();
+                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Genre = b.Genre, Author = b.Author.FullName }).FirstOrDefaultAsync();
 
                 if (book != null)
                     return View(book);
