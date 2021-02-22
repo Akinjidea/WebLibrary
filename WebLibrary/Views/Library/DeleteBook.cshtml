@@ -17,12 +17,13 @@
         <dd>
             @Html.DisplayFor(model => model.Year)
         </dd>
+        <dt>Жанр</dt>
         <dd>
             @Html.DisplayFor(model => model.Genre.Name)
         </dd>
         <dt>Автор</dt>
         <dd>
-            @Html.DisplayFor(model => model.Author)
+            @Html.DisplayFor(model => model.Author.FullName)
         </dd>
     </dl>
 

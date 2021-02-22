@@ -20,6 +20,16 @@ namespace WebLibrary.Controllers
         {
             _db = applicationContext;
         }
+
+        [AllowAnonymous]
+        [Route("{controller}/BooksCollection/Book/{id}")]
+        public async Task<IActionResult> Book(int id)
+        {
+            Book currentBook = await _db.Books.Include(p => p.Author).Include(p => p.Genre).FirstOrDefaultAsync(p => p.Id == id);
+            if (currentBook != null)
+                return View(currentBook);
+            return NotFound();
+        }
         
         [AllowAnonymous]
         public async Task<IActionResult> BooksCollection(string search, string sortOrder)

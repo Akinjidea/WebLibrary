@@ -33,7 +33,7 @@
     {
 <tr>
     <td>@book.Id</td>
-    <td>@book.Name</td>
+    <td><a asp-action="Book" asp-controller="Library" asp-route-id="@book.Id">@book.Name</a></td>
     <td>@book.Description</td>
     <td>@book.Year</td>
     <td>@book.Genre.Name</td>
