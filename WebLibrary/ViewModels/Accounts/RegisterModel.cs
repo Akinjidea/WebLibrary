@@ -8,28 +8,28 @@ namespace WebLibrary.ViewModels.Accounts
 {
     public class RegisterModel
     {
-        [Required(ErrorMessage ="Не указано имя")]
+        [Required(ErrorMessage ="Не указано имя!")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Не указана фамилия")]
+        [Required(ErrorMessage = "Не указана фамилия!")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Не указан возраст")]
-        public int Age { get; set; }
+        [Required(ErrorMessage = "Не указан возраст!")]
+        public int? Age { get; set; }
 
-        [Required(ErrorMessage = "Не указана почта")]
-        [EmailAddress(ErrorMessage ="Некорректный адрес почты")]
+        [Required(ErrorMessage = "Не указана почта!")]
+        [EmailAddress(ErrorMessage ="Некорректный адрес почты!")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage ="Не указан логин")]
+        [Required(ErrorMessage ="Не указан логин!")]
         public string Login { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Не указан пароль!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage ="Пароли разные")]
+        [Compare("Password", ErrorMessage ="Пароли разные!")]
         public string ConfirmPassword { get; set; }
     }
 }

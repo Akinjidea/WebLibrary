@@ -1,4 +1,4 @@
-﻿@model WebLibrary.ViewModels.Books.BookModel;
+﻿@model WebLibrary.Models.Books.Book;
 @{
     ViewBag.Title = "Удаление книги";
 }
@@ -18,7 +18,7 @@
             @Html.DisplayFor(model => model.Year)
         </dd>
         <dd>
-            @Html.DisplayFor(model => model.Genre)
+            @Html.DisplayFor(model => model.Genre.Name)
         </dd>
         <dt>Автор</dt>
         <dd>

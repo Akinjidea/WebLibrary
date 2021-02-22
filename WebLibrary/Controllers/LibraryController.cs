@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WebLibrary.Models;
 using WebLibrary.Models.Books;
 using WebLibrary.ViewModels.Books;
+using WebLibrary.Services;
 
 namespace WebLibrary.Controllers
 {
@@ -28,6 +29,7 @@ namespace WebLibrary.Controllers
             ViewData["DescriptionSortParam"] = sortOrder == "desc" ? "desc_desc" : "desc";
             ViewData["AuthorSortParam"] = sortOrder == "author" ? "author_desc" : "author";
             ViewData["YearSortParam"] = sortOrder == "year" ? "year_desc" : "year";
+            ViewData["GenreSortParam"] = sortOrder == "genre" ? "gener_desc" : "genre";
             ViewData["AddDateSortParam"] = sortOrder == "addDate" ? "addDate_desc" : "addDate";
             ViewData["SearchParam"] = search;
 
@@ -35,9 +37,9 @@ namespace WebLibrary.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
-                books = await _db.Books.Include(a => a.Author).Where(a => a.Name.Contains(search)).ToListAsync();
+                books = await _db.Books.Include(a => a.Author).Include(a => a.Genre).Where(a => a.Name.Contains(search)).ToListAsync();
             }
-            else books = await _db.Books.Include(a => a.Author).ToListAsync();
+            else books = await _db.Books.Include(a => a.Author).Include(a => a.Genre).ToListAsync();
 
             switch (sortOrder)
             {
@@ -57,16 +59,22 @@ namespace WebLibrary.Controllers
                     books = books.OrderByDescending(a => a.Description).ToList();
                     break;
                 case "author":
-                    books = books.OrderBy(a => a.Author).ToList();
+                    books = books.OrderBy(a => a.Author.FullName).ToList();
                     break;
                 case "author_desc":
-                    books = books.OrderByDescending(a => a.Author).ToList();
+                    books = books.OrderByDescending(a => a.Author.FullName).ToList();
                     break;
                 case "year":
                     books = books.OrderBy(a => a.Year).ToList();
                     break;
                 case "year_desc":
                     books = books.OrderByDescending(a => a.Year).ToList();
+                    break;
+                case "genre":
+                    books = books.OrderBy(a => a.Genre.Name).ToList();
+                    break;
+                case "genre_desc":
+                    books = books.OrderByDescending(a => a.Genre.Name).ToList();
                     break;
                 case "addDate":
                     books = books.OrderBy(a => a.AdditionDate).ToList();
@@ -83,13 +91,14 @@ namespace WebLibrary.Controllers
 
         public IActionResult AddBook()
         {
+            TempData.Put("GenreTypes", _db.Genres);
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddBook(BookModel bookModel)
-        {            
-            if(bookModel.Year <= 0)
+        {
+            if (bookModel.Year <= 0)
             {
                 ModelState.AddModelError("Year", "Год должен быть положительным!");
                 return View(bookModel);
@@ -99,13 +108,13 @@ namespace WebLibrary.Controllers
             {
                 ModelState.AddModelError("Author", "Такого автора не существует в базе данных!");
             }
-            else
+            if(ModelState.IsValid)
             {
                 _db.Books.Add(new Book { 
                     Name = bookModel.Name, 
                     Description = bookModel.Description, 
-                    Year = bookModel.Year,
-                    Genre = bookModel.Genre,
+                    Year = (int)bookModel.Year,
+                    GenreId = (int)bookModel.Genre,
                     AdditionDate = DateTime.Now,
                     AuthorId = hasAuthor.Id, 
                     UserId = _db.Users.Where(e => e.Email == User.Identity.Name).Select(i => i.Id).FirstOrDefault()
@@ -118,13 +127,24 @@ namespace WebLibrary.Controllers
 
         public async Task<IActionResult> UpdateBook(int? id)
         {
-            if (id != null)
+            if (id != null )
             {
+                
                 BookModel book = await _db.Books.Include(a => a.Author).Where(i => i.Id == id)
-                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Genre = b.Genre, Author = b.Author.FullName }).FirstOrDefaultAsync();
+                .Select(b => new BookModel { 
+                    Id = b.Id, 
+                    Name = b.Name, 
+                    Description = b.Description, 
+                    Year = b.Year, 
+                    Genre = b.GenreId, 
+                    Author = b.Author.FullName
+                }).FirstOrDefaultAsync();
 
                 if (book != null)
+                {
+                    TempData.Put("GenreTypes", _db.Genres);
                     return View(book);
+                }
             }
             return NotFound();
         }
@@ -142,13 +162,13 @@ namespace WebLibrary.Controllers
             {
                 ModelState.AddModelError("Author", "Такого автора не существует в базе данных!");
             }
-            else
+            if(ModelState.IsValid)
             {
                 Book book = _db.Books.Where(i => i.Id == bookModel.Id).FirstOrDefault();
                 book.Name = bookModel.Name;
                 book.Description = bookModel.Description;
-                book.Year = bookModel.Year;
-                book.Genre = bookModel.Genre;
+                book.Year = (int)bookModel.Year;
+                book.GenreId = (int)bookModel.Genre;
                 book.AdditionDate = DateTime.Now;
                 book.AuthorId = hasAuthor.Id;
 
@@ -162,12 +182,10 @@ namespace WebLibrary.Controllers
         [HttpGet]
         [ActionName("DeleteBook")]
         public async Task<IActionResult> Delete(int? id)
-        {
+        {            
             if (id != null)
             {
-                BookModel book = await _db.Books.Include(a => a.Author).Where(i => i.Id == id)
-                .Select(b => new BookModel { Id = b.Id, Name = b.Name, Description = b.Description, Year = b.Year, Genre = b.Genre, Author = b.Author.FullName }).FirstOrDefaultAsync();
-
+                Book book = await _db.Books.Include(a => a.Author).Include(a => a.Genre).Where(i => i.Id == id).FirstOrDefaultAsync();
                 if (book != null)
                     return View(book);
             }

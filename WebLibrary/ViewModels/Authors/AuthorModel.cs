@@ -11,10 +11,13 @@ namespace WebLibrary.ViewModels.Authors
         public int Id { get; set; }
         [Required(ErrorMessage = "Вы не указали имя!")]
         public string FullName { get; set; }
+
         [Required(ErrorMessage = "Вы не указали год рождения!")]
-        public int YearBirth { get; set; }
+        public int? YearBirth { get; set; }
+
         [Required(ErrorMessage = "Вы не указали год смерти!")]
-        public int YearDeath { get; set; }
+        public int? YearDeath { get; set; }
+
         public int BookCount { get; set; }
     }
 }

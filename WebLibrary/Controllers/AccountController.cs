@@ -73,7 +73,7 @@ namespace WebLibrary.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Age = model.Age,
+                        Age = (int) model.Age,
                         Email = model.Email,
                         Login = model.Login,
                         Password = model.Password
@@ -82,7 +82,7 @@ namespace WebLibrary.Controllers
                     await _db.SaveChangesAsync();
                     return RedirectToAction("Login");
                 }
-                ModelState.AddModelError("", "Некорректныq логин или пароль");
+                ModelState.AddModelError("", "Некорректный логин или пароль");
             }
             return View(model);
         }

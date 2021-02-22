@@ -1,6 +1,9 @@
-﻿@model WebLibrary.ViewModels.Books.BookModel;
+﻿@using WebLibrary.Services;
+@using WebLibrary.Models.Books;
+@model WebLibrary.ViewModels.Books.BookModel;
 @{
     ViewBag.Title = "Добавление книги";
+    SelectList genreTypes = new SelectList(TempData.Peek<IEnumerable<Genre>>("GenreTypes"), "Id", "Name");
 }
 <form asp-action="addBook" asp-controller="library">
     <div class="form-group">
@@ -20,7 +23,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Genre" class="control-label">Жанр</label>
-        <input type="text" asp-for="Genre" class="form-control" />
+        <select asp-for="Genre" class="form-control" asp-items="genreTypes"></select>
         <span asp-validation-for="Genre"></span>
     </div>
     <div class="form-group">

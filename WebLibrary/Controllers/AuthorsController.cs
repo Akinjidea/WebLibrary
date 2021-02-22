@@ -46,16 +46,16 @@ namespace WebLibrary.Controllers
             
             var sameAuthor = _db.Authors.FirstOrDefault(a => a.FullName == authorModel.FullName);
             if (sameAuthor != null)
-            {
                 ModelState.AddModelError("FullName", "Такой автор уже существует в базе данных.");
-            }
-            else
+            if (authorModel.YearBirth > authorModel.YearDeath)
+                ModelState.AddModelError("YearBirth", "Год рождения не может быть больше года смерти!");
+            if(ModelState.IsValid)
             {
                 _db.Authors.Add(new Author
                 {
                     FullName = authorModel.FullName,
-                    YearBirth = authorModel.YearBirth,
-                    YearDeath = authorModel.YearDeath,
+                    YearBirth = (int)authorModel.YearBirth,
+                    YearDeath = (int)authorModel.YearDeath,
                 });
                 await _db.SaveChangesAsync();
                 return RedirectToAction("List");
@@ -86,15 +86,15 @@ namespace WebLibrary.Controllers
         {
             var sameAuthor = _db.Authors.FirstOrDefault(a => a.FullName == authorModel.FullName);
             if (sameAuthor == null)
-            {
                 ModelState.AddModelError("FullName", "Такого автора нету в базе данных.");
-            }
-            else
+            if (authorModel.YearBirth > authorModel.YearDeath)
+                ModelState.AddModelError("YearBirth", "Год рождения не может быть больше года смерти!");
+            if (ModelState.IsValid)
             {
                 Author author = _db.Authors.Where(i => i.Id == authorModel.Id).FirstOrDefault();
                 author.FullName = authorModel.FullName;
-                author.YearBirth = authorModel.YearBirth;
-                author.YearDeath = authorModel.YearDeath;
+                author.YearBirth = (int)authorModel.YearBirth;
+                author.YearDeath = (int)authorModel.YearDeath;
 
                 _db.Authors.Update(author);
                 await _db.SaveChangesAsync();
