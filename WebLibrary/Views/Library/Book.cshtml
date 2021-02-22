@@ -1,26 +1,53 @@
-﻿@model WebLibrary.Models.Books.Book;
+﻿@model WebLibrary.ViewModels.Books.BookComments;
 @{
 }
 
-<dl class="dl-horizontal">
-    <dt>Название</dt>
-    <dd>
-        @Html.DisplayFor(model => model.Name)
-    </dd>
-    <dt>Описание</dt>
-    <dd>
-        @Html.DisplayFor(model => model.Description)
-    </dd>
-    <dt>Год</dt>
-    <dd>
-        @Html.DisplayFor(model => model.Year)
-    </dd>
-    <dt>Жанр</dt>
-    <dd>
-        @Html.DisplayFor(model => model.Genre.Name)
-    </dd>
-    <dt>Автор</dt>
-    <dd>
-        @Html.DisplayFor(model => model.Author.FullName)
-    </dd>
-</dl>
+<div>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>Название</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.Name)
+            </dd>
+            <dt>Описание</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.Description)
+            </dd>
+            <dt>Год</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.Year)
+            </dd>
+            <dt>Жанр</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.Genre.Name)
+            </dd>
+            <dt>Автор</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.Author.FullName)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <h4 align="center">Комментарии</h4>
+        <div>
+            <form asp-action="book" asp-controller="library">
+                <div class="form-group">
+                    <label asp-for="NewComment.Content" class="control-label">Добавить комментарий</label>
+                    <textarea asp-for="NewComment.Content" class="form-control"></textarea>
+                    <span asp-validation-for="NewComment.Content"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Добавить" class="btn btn-default border-dark" />
+                </div>
+            </form>
+        </div>
+        <div>
+            @foreach(var comment in Model.Comments)
+            {
+                <p><b>@comment.Author</b> <i>@comment.PublicationDate.ToString("MM/dd/yyyy H:mm")</i></p>
+                <p>@comment.Content</p>
+            }
+        </div>
+    </div>
+</div>
+
