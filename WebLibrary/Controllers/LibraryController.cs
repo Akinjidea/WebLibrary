@@ -22,15 +22,38 @@ namespace WebLibrary.Controllers
         }
 
         [AllowAnonymous]
-        [Route("{controller}/BooksCollection/Book/{id}")]
+        [Route("[controller]/BooksCollection/Book/{id}")]
         public async Task<IActionResult> Book(int id)
         {
-            Book currentBook = await _db.Books.Include(p => p.Author).Include(p => p.Genre).FirstOrDefaultAsync(p => p.Id == id);
-            if (currentBook != null)
+            BookComments currentBook = new BookComments { Book = await _db.Books.Include(p => p.Author).Include(p => p.Genre).FirstOrDefaultAsync(p => p.Id == id) };
+            if (currentBook.Book != null)
+            {
+                currentBook.Comments = await _db.Comments.Where(i => i.BookId==id).ToListAsync();
                 return View(currentBook);
+            }
+                
             return NotFound();
         }
-        
+
+        [HttpPost]
+        [Route("[controller]/BooksCollection/Book/{id}")]
+        public async Task<IActionResult> Book ([FromRoute(Name ="id")] int id, BookComments bookComments)
+        {
+            if (bookComments.NewComment.Content.Length > 3)
+            {
+                _db.Comments.Add(new Comment
+                {
+                    Author = User.Identity.Name,
+                    Content = bookComments.NewComment.Content,
+                    PublicationDate = DateTime.Now,
+                    BookId = id
+                });
+                await _db.SaveChangesAsync();
+            }
+            else ModelState.AddModelError("NewComment.Content", "Комментарий слишком короткий!");
+            return RedirectToAction("Book");
+        }
+
         [AllowAnonymous]
         public async Task<IActionResult> BooksCollection(string search, string sortOrder)
         {

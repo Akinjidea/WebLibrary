@@ -10,9 +10,11 @@ namespace WebLibrary.Models.Books
     {
         public int Id { get; set; }
         [Required]
+        public string Author { get; set; }
+        [Required]
         public string Content { get; set; }
         public DateTime PublicationDate { get; set; }
-
-        public List<Book> Books { get; set; } = new List<Book>();
+        public int BookId { get; set; }
+        public Book Book { get; set; }
     }
 }
