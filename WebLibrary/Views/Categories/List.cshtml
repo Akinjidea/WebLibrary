@@ -1,0 +1,24 @@
+﻿@model List<WebLibrary.Models.Books.Book>
+@{
+    ViewBag.Title = "Библиотека";
+}
+
+<br />
+<table class="table">
+    <tr>
+        <th>Номер</th><th>Название</th><th>Описание</th><th>Год</th><th>Жанр</th><th>Дата добавления</th><th>Автор</th>
+    </tr>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Id</td>
+            <td>@book.Name</td>
+            <td>@book.Description</td>
+            <td>@book.Year</td>
+            <td>@ViewData["GenreName"]</td>
+            <td>@book.AdditionDate</td>
+            <td>@book.Author.FullName</td>
+        </tr>
+    }
+</table>
+<br />

@@ -15,6 +15,8 @@ namespace WebLibrary.Models.Books
         [Required]
         public string Description { get; set; }
         public int Year { get; set; }
+        public int PageCount { get; set; }
+        public string ISBN { get; set; }
         public DateTime AdditionDate { get; set; }
 
         public int AuthorId { get; set; }

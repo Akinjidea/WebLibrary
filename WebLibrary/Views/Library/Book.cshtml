@@ -21,6 +21,14 @@
             <dd>
                 @Html.DisplayFor(model => model.Book.Genre.Name)
             </dd>
+            <dt>Количество страниц</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.PageCount)
+            </dd>
+            <dt>ISBN</dt>
+            <dd>
+                @Html.DisplayFor(model => model.Book.ISBN)
+            </dd>
             <dt>Автор</dt>
             <dd>
                 @Html.DisplayFor(model => model.Book.Author.FullName)

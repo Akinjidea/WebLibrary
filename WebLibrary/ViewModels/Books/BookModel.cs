@@ -24,5 +24,11 @@ namespace WebLibrary.ViewModels.Books
 
         [Required(ErrorMessage = "Вы не указали год!")]
         public int? Year { get; set; }
+
+        [Required(ErrorMessage = "Вы не указали количество страниц!")]
+        public int? PageCount { get; set; }
+
+        [Required(ErrorMessage = "Вы не указали ISBN!")]
+        public string ISBN { get; set; }
     }
 }

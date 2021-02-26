@@ -134,6 +134,10 @@ namespace WebLibrary.Controllers
             if (bookModel.Year <= 0)
             {
                 ModelState.AddModelError("Year", "Год должен быть положительным!");
+            }
+            if (bookModel.PageCount <=0)
+            {
+                ModelState.AddModelError("PageCount", "Количество страниц должно быть положительным!");
                 return View(bookModel);
             }
             var hasAuthor = _db.Authors.FirstOrDefault(a => a.FullName == bookModel.Author);
@@ -147,6 +151,8 @@ namespace WebLibrary.Controllers
                     Name = bookModel.Name, 
                     Description = bookModel.Description, 
                     Year = (int)bookModel.Year,
+                    PageCount = (int) bookModel.PageCount,
+                    ISBN = bookModel.ISBN,
                     GenreId = (int)bookModel.Genre,
                     AdditionDate = DateTime.Now,
                     AuthorId = hasAuthor.Id, 
@@ -168,7 +174,9 @@ namespace WebLibrary.Controllers
                     Id = b.Id, 
                     Name = b.Name, 
                     Description = b.Description, 
-                    Year = b.Year, 
+                    Year = b.Year,
+                    PageCount = b.PageCount,
+                    ISBN = b.ISBN,
                     Genre = b.GenreId, 
                     Author = b.Author.FullName
                 }).FirstOrDefaultAsync();
@@ -187,9 +195,12 @@ namespace WebLibrary.Controllers
             if (bookModel.Year <= 0)
             {
                 ModelState.AddModelError("Year", "Год должен быть положительным!");
+            }
+            if (bookModel.PageCount <= 0)
+            {
+                ModelState.AddModelError("PageCount", "Количество страниц должно быть положительным!");
                 return View(bookModel);
             }
-
             var hasAuthor = _db.Authors.FirstOrDefault(a => a.FullName == bookModel.Author);
             if (hasAuthor == null)
             {
@@ -201,6 +212,8 @@ namespace WebLibrary.Controllers
                 book.Name = bookModel.Name;
                 book.Description = bookModel.Description;
                 book.Year = (int)bookModel.Year;
+                book.PageCount = (int)bookModel.PageCount;
+                book.ISBN = bookModel.ISBN;
                 book.GenreId = (int)bookModel.Genre;
                 book.AdditionDate = DateTime.Now;
                 book.AuthorId = hasAuthor.Id;

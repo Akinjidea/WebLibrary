@@ -27,6 +27,7 @@
         <th>
             <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AuthorSortParam"]" asp-route-search="@ViewData["SearchParam"]">Автор</a>
         </th>
+        <th>Количество страниц</th><th>ISBN</th>
         <th colspan="2">Манипуляция</th>
     </tr>
     @foreach (var book in Model)
@@ -39,8 +40,10 @@
     <td>@book.Genre.Name</td>
     <td>@book.AdditionDate</td>
     <td>@book.Author.FullName</td>
-    <td><a asp-action="UpdateBook" asp-route-id="@book.Id">Изменить</a></td>
-    <td><a asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
+    <td>@book.PageCount</td>
+    <td>@book.ISBN</td>
+<td><a asp-action="UpdateBook" asp-route-id="@book.Id">Изменить</a></td>
+<td><a asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
 </tr>
     }
 </table>
