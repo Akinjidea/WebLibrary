@@ -1,0 +1,26 @@
+﻿@media (min-width: 1200px) {
+    .container {
+        max-width: 1300px;
+    }
+}
+
+/*Цвет для заднего фона заголовка*/
+.bg-container-full {
+    position: relative;
+}
+
+    .bg-container-full:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX( -50%);
+        height: 100%;
+        width: 100vw;
+        background: #82bbff;
+    }
+
+html {
+    overflow-x: hidden;
+}
+
