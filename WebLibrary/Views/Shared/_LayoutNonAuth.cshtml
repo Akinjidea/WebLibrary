@@ -11,7 +11,7 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
-    <div class="container" style="padding-top: 50px; padding-bottom: 25px">
+    <div class="container bg-light" style="padding-top: 50px; padding-bottom: 25px">
         <div class="row">
             <div class="col-lg-3 text-left">
                 <a asp-controller="home" asp-action="index">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #3399ff">
+        <nav class=" navbar-main navbar-expand-sm navbar-dark py-0" style="background-color: #3A89D2">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav w-100 nav-justified" style="font-size: 16pt">
                     <li class="nav-item active">
@@ -55,11 +55,55 @@
                         <a class="nav-link" asp-action="profile" asp-controller="home">Профиль</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#" >Контакты</a>
+                        <a class="nav-link" href="#">Контакты</a>
                     </li>
                 </ul>
             </div>
         </nav>
+
+        <div class="row" style="padding-top: 20px">            
+            <div class="col-md-3">
+                <nav class="nav navbar-custom navbar-light">
+                    <ul class="navbar-nav" style="width: 100%">
+                        <li class="nav-item border-fullside text-light text-center" style="background-color: #3A89D2;"><h4 class="active">Категории</h4></li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Боевики</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover" >
+                            <a class="nav-link active" href="#">Детективы</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Драма</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Исторический роман</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Классика</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Научная фантастика</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Приключения</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Романтика</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Триллеры</a>
+                        </li>
+                        <li class="nav-item border-fullside left-menu-hover">
+                            <a class="nav-link active" href="#">Фэнтези</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-9">
+                <img class="img-fluid" alt="main.png" src="/images/carousel/1.jpg" title="main.png">
+            </div>
+        </div>
+
 
     </div>
 

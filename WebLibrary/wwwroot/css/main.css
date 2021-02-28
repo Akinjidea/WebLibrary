@@ -1,26 +1,31 @@
-﻿@media (min-width: 1200px) {
+﻿body {
+    background-image: url(../images/bg.jpg);
+}
+
+@media (min-width: 1200px) {
     .container {
         max-width: 1300px;
     }
 }
 
-/*Цвет для заднего фона заголовка*/
-.bg-container-full {
-    position: relative;
+/*Верхнее меню*/
+
+.navbar-main .nav-item:hover {
+    background-color: #24629C; /* add background-color to active links */
 }
 
-    .bg-container-full:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX( -50%);
-        height: 100%;
-        width: 100vw;
-        background: #82bbff;
-    }
+/*Боковое меню*/
+li.border-fullside {
+    padding-left: 10px;
+    border-top: 1px solid rgba(0, 0, 0, .2);
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
 
-html {
-    overflow-x: hidden;
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
+.navbar-custom .nav-item:hover {
+    background-color: #3A89D2; /* add background-color to active links */
 }
 
