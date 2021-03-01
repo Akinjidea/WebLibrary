@@ -9,9 +9,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container bg-light" style="padding-top: 50px; padding-bottom: 25px">
+    <div class="container bg-light" style="padding-top: 50px; padding-bottom: 25px; min-height:150%">
         <div class="row">
             <div class="col-lg-3 text-left">
                 <a asp-controller="home" asp-action="index">
@@ -61,7 +62,7 @@
             </div>
         </nav>
 
-        <div class="row" style="padding-top: 20px">            
+        <div class="row" style="padding-top: 20px">
             <div class="col-md-3">
                 <nav class="nav navbar-custom navbar-light">
                     <ul class="navbar-nav" style="width: 100%">
@@ -69,7 +70,7 @@
                         <li class="nav-item border-fullside left-menu-hover">
                             <a class="nav-link active" href="#">Боевики</a>
                         </li>
-                        <li class="nav-item border-fullside left-menu-hover" >
+                        <li class="nav-item border-fullside left-menu-hover">
                             <a class="nav-link active" href="#">Детективы</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
@@ -100,16 +101,12 @@
                 </nav>
             </div>
             <div class="col-md-9">
-                <img class="img-fluid" alt="main.png" src="/images/carousel/1.jpg" title="main.png">
+                @RenderBody()
             </div>
         </div>
-
-
     </div>
-
-
-    <div class="container body-content">
-        @RenderBody()
+    <div class="container bg-light card-footer site-footer">
+        &copy; 2021 - Library - <a asp-area="" asp-controller="Home" asp-action="Index">Домашняяя страница</a>
     </div>
 </body>
 </html>

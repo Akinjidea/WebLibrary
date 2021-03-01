@@ -1,4 +1,8 @@
 ﻿body {
+    background-attachment:fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-image: url(../images/bg.jpg);
 }
 
@@ -27,5 +31,11 @@ li.border-fullside {
 
 .navbar-custom .nav-item:hover {
     background-color: #3A89D2; /* add background-color to active links */
+}
+
+.site-footer {
+    border-top: 3px solid rgba(58, 137, 210, .8);
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
