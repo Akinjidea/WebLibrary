@@ -29,11 +29,27 @@
             </div>
             <div class="offset-lg-1 col-lg-2">
                 <ul class="list-unstyled text-right">
-                    <li style="margin-top: 10px">
-                        <a asp-controller="account" asp-action="logout">
-                            <input type="button" class="btn btn-block btn-outline-secondary border-dark" value="Выйти">
-                        </a>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li style="margin-top: 10px">
+                            <a asp-controller="account" asp-action="logout">
+                                <input type="button" class="btn btn-block btn-outline-secondary border-dark" value="Выйти">
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="account" asp-action="login">
+                                <input type="button" class="btn btn-block btn-outline-secondary border-dark" value="Войти">
+                            </a>
+                        </li>
+                        <li style="margin-top: 10px">
+                            <a asp-controller="account" asp-action="register">
+                                <input type="button" class="btn btn-block btn-outline-secondary border-dark" value="Регистрация">
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -95,7 +111,7 @@
                     </ul>
                 </nav>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-9">                
                 @RenderBody()
             </div>
         </div>
