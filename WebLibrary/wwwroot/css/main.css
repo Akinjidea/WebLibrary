@@ -33,6 +33,7 @@ li.border-fullside {
     background-color: #3A89D2; /* add background-color to active links */
 }
 
+/*Нижняяя панель*/
 .site-footer {
     border-top: 3px solid rgba(58, 137, 210, .8);
     padding-top: 20px;

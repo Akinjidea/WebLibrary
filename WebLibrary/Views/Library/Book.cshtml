@@ -1,9 +1,54 @@
 ﻿@model WebLibrary.ViewModels.Books.BookComments;
-@{
-}
 
-<div>
-    <div>
+<style>
+    .container {
+        background-color: white;
+    }
+    .img-sm {
+        width: 46px;
+        height: 46px;
+        margin-right: 10px;
+    }
+
+    .panel:first-child {
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 0;
+        border: 0;
+        margin-bottom: 15px;
+    }
+
+    .panel-body {
+        padding-top: 25px;
+        padding-left: 15px;
+    }
+
+    .media-block .media-left {
+        display: block;
+        float: left;
+    }
+
+    .text-muted,
+    a.text-muted:hover,
+    a.text-muted:focus {
+        color: #acacac;
+    }
+
+    .text-sm {
+        font-size: 0.9em;
+    }
+
+    .text-5x,
+    .text-4x,
+    .text-5x,
+    .text-2x,
+    .text-lg,
+    .text-sm,
+    .text-xs {
+        line-height: 1.25;
+    }
+</style>
+
+
         <dl class="dl-horizontal">
             <dt>Название</dt>
             <dd>
@@ -34,28 +79,39 @@
                 @Html.DisplayFor(model => model.Book.Author.FullName)
             </dd>
         </dl>
-    </div>
-    <div>
-        <h4 align="center">Комментарии</h4>
-        <div>
-            <form asp-action="book" asp-controller="library">
-                <div class="form-group">
-                    <label asp-for="NewComment.Content" class="control-label">Добавить комментарий</label>
-                    <textarea asp-for="NewComment.Content" class="form-control"></textarea>
-                    <span asp-validation-for="NewComment.Content"></span>
+        <section class="container">
+            <div class="panel">
+                <div class="panel-body">
+                    <h4 align="center">Комментарии</h4>
+                    <form asp-action="book" asp-controller="library">
+                        <div class="form-group">
+                            <textarea asp-for="NewComment.Content" class="form-control" placeholder="Введите Ваш комментарий"></textarea>
+                            <span asp-validation-for="NewComment.Content"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Добавить" class="btn btn-sm btn-default border-dark " style="margin-bottom: 20px;" />
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Добавить" class="btn btn-default border-dark" />
-                </div>
-            </form>
-        </div>
-        <div>
-            @foreach(var comment in Model.Comments)
+            </div>
+            @foreach (var comment in Model.Comments)
             {
-                <p><b>@comment.Author</b> <i>@comment.PublicationDate.ToString("MM/dd/yyyy H:mm")</i></p>
-                <p>@comment.Content</p>
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="media-block">
+                            <div class="media-left">
+                                <img class="img-circle img-sm"
+                                     alt="Профиль пользователя"
+                                     src="~/images/comments/unnamed.png" />
+                            </div>
+                            <a>@comment.Author</a>
+                            <p class="text-muted text-sm">@comment.PublicationDate</p>
+                            <p>@comment.Content</p>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
             }
-        </div>
-    </div>
-</div>
+        </section>
+
 

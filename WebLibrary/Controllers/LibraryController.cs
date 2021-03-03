@@ -28,7 +28,7 @@ namespace WebLibrary.Controllers
             BookComments currentBook = new BookComments { Book = await _db.Books.Include(p => p.Author).Include(p => p.Genre).FirstOrDefaultAsync(p => p.Id == id) };
             if (currentBook.Book != null)
             {
-                currentBook.Comments = await _db.Comments.Where(i => i.BookId==id).ToListAsync();
+                currentBook.Comments = await _db.Comments.Where(i => i.BookId==id).OrderByDescending(i => i.PublicationDate).ToListAsync();
                 return View(currentBook);
             }
                 

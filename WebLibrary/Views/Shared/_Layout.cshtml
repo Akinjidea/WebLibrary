@@ -22,15 +22,19 @@
             <div class="col-lg-6">
                 <div style="margin-top: 25px">
                     <form class="form-inline my-2 my-lg-0 justify-content-center">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Поиск" size="50" name="search" id="search" aria-label="Search">
-                        <button class="btn btn-outline-dark border-dark" type="submit" asp-action="BooksCollection" asp-controller="Library">Найти</button>
+                        <div class="input-group mb-3">
+                            <input class="form-control" type="text" placeholder="Поиск" size="50" name="search" id="search" aria-label="Search">
+                            <span class="input-group-append">
+                                <button class="btn btn-outline-dark border-dark" type="submit" asp-action="BooksCollection" asp-controller="Library">Найти</button>
+                            </span>
+                        </div>
                     </form>
                 </div>
             </div>
             <div class="offset-lg-1 col-lg-2">
                 <ul class="list-unstyled text-right">
                     @if (User.Identity.IsAuthenticated)
-                    {
+                    {                        
                         <li style="margin-top: 10px">
                             <a asp-controller="account" asp-action="logout">
                                 <input type="button" class="btn btn-block btn-outline-secondary border-dark" value="Выйти">
@@ -54,7 +58,7 @@
             </div>
         </div>
 
-        <nav class=" navbar-main navbar-expand-sm navbar-dark py-0" style="background-color: #3A89D2">
+        <nav class="navbar-main navbar-expand-sm navbar-dark py-0" style="background-color: #3A89D2">
             <div class="navbar-collapse collapse">
                 <ul class="navbar-nav w-100 nav-justified" style="font-size: 16pt">
                     <li class="nav-item active">
