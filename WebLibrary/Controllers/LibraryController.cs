@@ -9,6 +9,7 @@ using WebLibrary.Models;
 using WebLibrary.Models.Books;
 using WebLibrary.ViewModels.Books;
 using WebLibrary.Services;
+using WebLibrary.ViewModels.Common;
 
 namespace WebLibrary.Controllers
 {
@@ -37,7 +38,7 @@ namespace WebLibrary.Controllers
 
         [HttpPost]
         [Route("[controller]/BooksCollection/Book/{id}")]
-        public async Task<IActionResult> Book ([FromRoute(Name ="id")] int id, BookComments bookComments)
+        public async Task<IActionResult> AddComment ([FromRoute(Name ="id")] int id, BookComments bookComments)
         {
             if (bookComments.NewComment.Content.Length > 3)
             {
@@ -51,12 +52,12 @@ namespace WebLibrary.Controllers
                 await _db.SaveChangesAsync();
             }
             else ModelState.AddModelError("NewComment.Content", "Комментарий слишком короткий!");
-            return RedirectToAction("Book");
+            return RedirectToAction("Book", new { id = id });
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> BooksCollection(string search, string sortOrder)
-        {
+        public async Task<IActionResult> BooksCollection(string search, string sortOrder, int page = 1)
+        {            
             ViewData["IdSortParam"] = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewData["NameSortParam"] = sortOrder == "book" ? "book_desc" : "book";
             ViewData["DescriptionSortParam"] = sortOrder == "desc" ? "desc_desc" : "desc";
@@ -66,13 +67,10 @@ namespace WebLibrary.Controllers
             ViewData["AddDateSortParam"] = sortOrder == "addDate" ? "addDate_desc" : "addDate";
             ViewData["SearchParam"] = search;
 
-            List<Book> books = null;
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                books = await _db.Books.Include(a => a.Author).Include(a => a.Genre).Where(a => a.Name.Contains(search)).ToListAsync();
-            }
-            else books = await _db.Books.Include(a => a.Author).Include(a => a.Genre).ToListAsync();
+            int pageSize = 10;
+            IQueryable<Book> source = !string.IsNullOrEmpty(search) ? source = _db.Books.Include(a => a.Author).Include(a => a.Genre).Where(a => a.Name.Contains(search)) : _db.Books.Include(a => a.Author).Include(a => a.Genre);
+            var count = await source.CountAsync();
+            var books = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
             switch (sortOrder)
             {
@@ -119,7 +117,15 @@ namespace WebLibrary.Controllers
                     books = books.OrderBy(a => a.Id).ToList();
                     break;
             }
-            return View(books);
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            BookPageViewModel viewModel = new BookPageViewModel
+            {
+                PageViewModel = pageViewModel,
+                Book = books
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult AddBook()

@@ -1,4 +1,4 @@
-﻿@model List<WebLibrary.Models.Books.Book>
+﻿@model WebLibrary.ViewModels.Books.BookPageViewModel
 @{
     ViewBag.Title = "Библиотека";
 }
@@ -30,7 +30,7 @@
         <th>Количество страниц</th><th>ISBN</th>
         <th colspan="2">Манипуляция</th>
     </tr>
-    @foreach (var book in Model)
+    @foreach (var book in Model.Book)
     {
 <tr>
     <td>@book.Id</td>
@@ -48,8 +48,30 @@
     }
 </table>
 <br/>
-<div align="center">
-    <a asp-controller="Library" asp-action="AddBook">
-        <input type="button" class="btn btn-default border-dark" value="Добавить книгу" />
-    </a>
+
+<div style="margin-left: 1vw; margin-right: 1vw;">
+    <div class="float-right">
+        <a asp-controller="Library" asp-action="AddBook">
+            <input type="button" class="btn btn-default border-dark" value="Добавить книгу" />
+        </a>
+    </div>
+    <div class="float-left">
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="BooksCollection"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+               class="btn btn-outline-dark">
+                Назад
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="BooksCollection"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+               class="btn btn-outline-dark">
+                Вперед
+            </a>
+        }
+    </div>
 </div>
+
