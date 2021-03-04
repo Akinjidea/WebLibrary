@@ -49,69 +49,87 @@
 </style>
 
 
-        <dl class="dl-horizontal">
-            <dt>Название</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Name)
-            </dd>
-            <dt>Описание</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Description)
-            </dd>
-            <dt>Год</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Year)
-            </dd>
-            <dt>Жанр</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Genre.Name)
-            </dd>
-            <dt>Количество страниц</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.PageCount)
-            </dd>
-            <dt>ISBN</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.ISBN)
-            </dd>
-            <dt>Автор</dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Author.FullName)
-            </dd>
-        </dl>
-        <section class="container">
-            <div class="panel">
-                <div class="panel-body">
-                    <h4 align="center">Комментарии</h4>
-                    <form asp-action="book" asp-controller="library">
-                        <div class="form-group">
-                            <textarea asp-for="NewComment.Content" class="form-control" placeholder="Введите Ваш комментарий"></textarea>
-                            <span asp-validation-for="NewComment.Content"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Добавить" class="btn btn-sm btn-default border-dark " style="margin-bottom: 20px;" />
-                        </div>
-                    </form>
+<table style="margin-left: 2vw;">
+    <tbody>
+        <tr>
+            <td style="vertical-align: top">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="nocover.jpg">
+                                    <img src="~/images/books/nocover.jpg"
+                                         align="left"
+                                         alt="bookcover"
+                                         itemprop="image" />
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td style="vertical-align: top; padding-left: 2vw;">
+                <span style="display: table">
+                    <br />
+                    <p>
+                        <b>Автор:</b> @Model.Book.Author.FullName
+                        <br />
+                        <b>Название:</b> @Model.Book.Name
+                        <br />
+                        <b>Жанр:</b> @Model.Book.Genre.Name
+                        <br />
+                        <b>Количество страниц:</b> @Model.Book.PageCount
+                        <br />
+                        <b>Год:</b> 2021
+                        <br />
+                        <b>ISBN:</b> @Model.Book.ISBN
+                    </p>
+                    <p>
+                        <b>Аннотация на книгу «@Model.Book.Name»:</b>
+                        <br />
+                        <span>
+                            @Model.Book.Description
+                        </span>
+                    </p>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<section class="container">
+    <div class="panel">
+        <div class="panel-body">
+            <h4 align="center">Комментарии</h4>
+            <form asp-action="book" asp-controller="library">
+                <div class="form-group">
+                    <textarea asp-for="NewComment.Content" class="form-control" placeholder="Введите Ваш комментарий"></textarea>
+                    <span asp-validation-for="NewComment.Content"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Добавить" class="btn btn-sm btn-default border-dark " style="margin-bottom: 20px;" />
+                </div>
+            </form>
+        </div>
+    </div>
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="panel">
+            <div class="panel-body">
+                <div class="media-block">
+                    <div class="media-left">
+                        <img class="img-circle img-sm"
+                             alt="Профиль пользователя"
+                             src="~/images/comments/unnamed.png" />
+                    </div>
+                    <a>@comment.Author</a>
+                    <p class="text-muted text-sm">@comment.PublicationDate</p>
+                    <p>@comment.Content</p>
+                    <hr />
                 </div>
             </div>
-            @foreach (var comment in Model.Comments)
-            {
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="media-block">
-                            <div class="media-left">
-                                <img class="img-circle img-sm"
-                                     alt="Профиль пользователя"
-                                     src="~/images/comments/unnamed.png" />
-                            </div>
-                            <a>@comment.Author</a>
-                            <p class="text-muted text-sm">@comment.PublicationDate</p>
-                            <p>@comment.Content</p>
-                            <hr />
-                        </div>
-                    </div>
-                </div>
-            }
-        </section>
+        </div>
+    }
+</section>
 
 
