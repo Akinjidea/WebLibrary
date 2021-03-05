@@ -10,6 +10,8 @@ using WebLibrary.Models.Books;
 using WebLibrary.ViewModels.Books;
 using WebLibrary.Services;
 using WebLibrary.ViewModels.Common;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebLibrary.Controllers
 {
@@ -17,9 +19,11 @@ namespace WebLibrary.Controllers
     public class LibraryController : Controller
     {
         ApplicationContext _db;
-        public LibraryController(ApplicationContext applicationContext)
+        IWebHostEnvironment _appEnvironment;
+        public LibraryController(ApplicationContext applicationContext, IWebHostEnvironment appEnvironment)
         {
             _db = applicationContext;
+            _appEnvironment = appEnvironment;
         }
 
         [AllowAnonymous]
@@ -153,18 +157,32 @@ namespace WebLibrary.Controllers
             }
             if(ModelState.IsValid)
             {
-                _db.Books.Add(new Book { 
-                    Name = bookModel.Name, 
-                    Description = bookModel.Description, 
+                Book newBook = new Book
+                {
+                    Name = bookModel.Name,
+                    Description = bookModel.Description,
                     Year = (int)bookModel.Year,
-                    PageCount = (int) bookModel.PageCount,
+                    PageCount = (int)bookModel.PageCount,
                     ISBN = bookModel.ISBN,
                     GenreId = (int)bookModel.Genre,
                     AdditionDate = DateTime.Now,
-                    AuthorId = hasAuthor.Id, 
+                    AuthorId = hasAuthor.Id,
                     UserId = _db.Users.Where(e => e.Email == User.Identity.Name).Select(i => i.Id).FirstOrDefault()
-                });
+                };
+                if (bookModel.CoverBook != null)
+                {
+                    string filename = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString() + Path.GetExtension(bookModel.CoverBook.FileName);
+                    string path = "/Server/Books/Images/" + filename;
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await bookModel.CoverBook.CopyToAsync(fileStream);
+                    }
+                    newBook.PathCover = filename;
+                }
+                else newBook.PathCover = "nocover.jpg";
+                _db.Books.Add(newBook);
                 await _db.SaveChangesAsync();
+                
                 return RedirectToAction("BooksCollection");
             }
             return View(bookModel);
