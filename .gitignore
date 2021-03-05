@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Images upload to the server
+/WebLibrary/wwwroot/Server/Books/Images/*
+!/WebLibrary/wwwroot/Server/Books/Images/nocover.jpg

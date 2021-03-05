@@ -201,6 +201,7 @@ namespace WebLibrary.Controllers
                     Year = b.Year,
                     PageCount = b.PageCount,
                     ISBN = b.ISBN,
+                    PathCover = b.PathCover,
                     Genre = b.GenreId, 
                     Author = b.Author.FullName
                 }).FirstOrDefaultAsync();
@@ -241,6 +242,21 @@ namespace WebLibrary.Controllers
                 book.GenreId = (int)bookModel.Genre;
                 book.AdditionDate = DateTime.Now;
                 book.AuthorId = hasAuthor.Id;
+
+                string folderPath = _appEnvironment.WebRootPath + "/Server/Books/Images/";
+                if (bookModel.PathCover != "nocover.jpg" && System.IO.File.Exists(folderPath + bookModel.PathCover))
+                    System.IO.File.Delete(folderPath + bookModel.PathCover);
+
+                if (bookModel.CoverBook != null)
+                {
+                    string filename = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString() + Path.GetExtension(bookModel.CoverBook.FileName);
+                    using (var fileStream = new FileStream(folderPath + filename, FileMode.Create))
+                    {
+                        await bookModel.CoverBook.CopyToAsync(fileStream);
+                    }
+                    book.PathCover = filename;
+                }
+                else book.PathCover = "nocover.jpg";
 
                 _db.Books.Update(book);
                 await _db.SaveChangesAsync();
