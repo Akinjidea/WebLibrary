@@ -3,25 +3,92 @@
     ViewBag.Title = "Библиотека";
 }
 
-<br />
-<table class="table">
-    <tr>
-        <th>Номер</th><th>Название</th><th>Описание</th><th>Год</th><th>Жанр</th><th>Дата добавления</th><th>Автор</th>
-    </tr>
-    @foreach (var book in Model.Book)
-    {
-        <tr>
-            <td>@book.Id</td>
-            <td><a asp-action="Book" asp-controller="Library" asp-route-id="@book.Id">@book.Name</a></td>
-            <td>@book.Description</td>
-            <td>@book.Year</td>
-            <td>@ViewData["GenreName"]</td>
-            <td>@book.AdditionDate</td>
-            <td>@book.Author.FullName</td>
-        </tr>
+<style>
+    .book-header {
+        color: black;
+        margin-bottom: 1vw;
+        font-size: 1.4rem;
+        font-weight: bold;
     }
-</table>
-<br />
+    .book-header a {
+        color:black;
+
+    }
+    .book-footer {
+        margin-top: 0.5vw;
+        border-top: dotted 2px;
+        border-bottom: dotted 2px;
+        padding-left: 1vw;
+        padding-right: 1vw;
+        font-size: 0.8rem;
+        margin-bottom: 2vw;
+    }
+</style>
+
+@foreach (var book in Model.Book)
+{
+<div style="margin-left: 2vw;">
+    <div class="book-header">
+        <a asp-controller="library" asp-action="book" asp-route-id="@book.Id"><i>@book.Author.FullName</i> — @book.Name</a>
+    </div>
+    <table>
+        <tbody>
+            <tr>
+                <td style="vertical-align: top" width="30%">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="nocover.jpg">
+                                        <img style="max-width: 100%; max-height: 100%; display:block"
+                                             src="~/Server/Books/Images/@book.PathCover"
+                                             align="left"
+                                             alt="bookcover"
+                                             itemprop="image" />
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="vertical-align: top; padding-left: 2vw;" width="70%">
+                    <span style="display: table">
+                        <p>
+                            <b>Автор:</b> @book.Author.FullName
+                            <br />
+                            <b>Название:</b> @book.Name
+                            <br />
+                            <b>Жанр:</b> @ViewData["GenreName"]
+                            <br />
+                            <b>Количество страниц:</b> @book.PageCount
+                            <br />
+                            <b>Год:</b> 2021
+                            <br />
+                            <b>ISBN:</b> @book.ISBN
+                        </p>
+                        <p>
+                            <b>Аннотация на книгу «@book.Name»:</b>
+                            <br />
+                            <span>
+                                @book.Description
+                            </span>
+                        </p>
+                        <br/>
+                        <p>
+                            <a class="btn btn-default border-dark" asp-action="UpdateBook" asp-controller="Library" asp-route-id="@book.Id">Изменить</a>
+                            <a class="btn btn-default border-dark" asp-action="DeleteBook" asp-controller="Library" asp-route-id="@book.Id">Удалить</a>
+                        </p>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="book-footer">
+        <span>Добавлено @book.AdditionDate | Добавил: @book.Users.Login</span>
+        <span class="float-right">Количество комментариев: @book.Comments.Count()</span>
+    </div>
+</div>
+}
 
 <div class="float-left">
     @if (Model.PageViewModel.HasPreviousPage)

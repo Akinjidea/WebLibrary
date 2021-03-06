@@ -23,7 +23,7 @@ namespace WebLibrary.Controllers
         public async Task<IActionResult> List(int? id, int page = 1)
         {
             int pageSize = 10;
-            IQueryable<Book> source = _db.Books.Include(a => a.Author).Where(g => g.GenreId == id).OrderBy(i => i.AdditionDate);
+            IQueryable<Book> source = _db.Books.Include(a => a.Author).Include(a => a.Users).Include(a => a.Comments).Where(g => g.GenreId == id).OrderByDescending(i => i.AdditionDate);
             var count = await source.CountAsync();
             var books = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             string name = await _db.Genres.Where(i => i.Id == id).Select(i => i.Name).FirstOrDefaultAsync();
