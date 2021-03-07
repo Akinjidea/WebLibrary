@@ -61,37 +61,35 @@ namespace WebLibrary.Controllers
 
         [AllowAnonymous]
         public async Task<IActionResult> BooksCollection(string search, string sortOrder, int page = 1)
-        {            
-            ViewData["IdSortParam"] = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+        {
+            ViewData["AddDateSortParam"] = string.IsNullOrEmpty(sortOrder) ? "addDate" : "";
             ViewData["NameSortParam"] = sortOrder == "book" ? "book_desc" : "book";
-            ViewData["DescriptionSortParam"] = sortOrder == "desc" ? "desc_desc" : "desc";
             ViewData["AuthorSortParam"] = sortOrder == "author" ? "author_desc" : "author";
             ViewData["YearSortParam"] = sortOrder == "year" ? "year_desc" : "year";
-            ViewData["GenreSortParam"] = sortOrder == "genre" ? "gener_desc" : "genre";
-            ViewData["AddDateSortParam"] = sortOrder == "addDate" ? "addDate_desc" : "addDate";
+            ViewData["GenreSortParam"] = sortOrder == "genre" ? "genre_desc" : "genre";
             ViewData["SearchParam"] = search;
 
             int pageSize = 10;
-            IQueryable<Book> source = !string.IsNullOrEmpty(search) ? source = _db.Books.Include(a => a.Author).Include(a => a.Genre).Where(a => a.Name.Contains(search)) : _db.Books.Include(a => a.Author).Include(a => a.Genre);
+            IQueryable<Book> source = !string.IsNullOrEmpty(search) ? source = _db.Books
+                .Include(a => a.Author)
+                .Include(a => a.Genre)
+                .Include(a => a.Users)
+                .Include(a => a.Comments)
+                .Where(a => a.Name.Contains(search)) : _db.Books
+                .Include(a => a.Author)
+                .Include(a => a.Genre)
+                .Include(a => a.Users)
+                .Include(a => a.Comments);
             var count = await source.CountAsync();
             var books = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
             switch (sortOrder)
             {
-                case "id_desc":
-                    books = books.OrderByDescending(a => a.Id).ToList();
-                    break;
                 case "book":
                     books = books.OrderBy(a => a.Name).ToList();
                     break;
                 case "book_desc":
                     books = books.OrderByDescending(a => a.Name).ToList();
-                    break;
-                case "desc":
-                    books = books.OrderBy(a => a.Description).ToList();
-                    break;
-                case "desc_desc":
-                    books = books.OrderByDescending(a => a.Description).ToList();
                     break;
                 case "author":
                     books = books.OrderBy(a => a.Author.FullName).ToList();
@@ -114,11 +112,8 @@ namespace WebLibrary.Controllers
                 case "addDate":
                     books = books.OrderBy(a => a.AdditionDate).ToList();
                     break;
-                case "addDate_desc":
-                    books = books.OrderByDescending(a => a.AdditionDate).ToList();
-                    break;
                 default:
-                    books = books.OrderBy(a => a.Id).ToList();
+                    books = books.OrderByDescending(a => a.AdditionDate).ToList();
                     break;
             }
 

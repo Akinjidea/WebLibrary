@@ -3,17 +3,38 @@
     ViewBag.Title = "Библиотека";
 }
 
-<br />
-<table class="table">
+<style>
+    .book-header {
+        color: black;
+        margin-bottom: 1vw;
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+
+        .book-header a {
+            color: black;
+        }
+
+    .book-footer {
+        margin-top: 0.5vw;
+        border-top: dotted 2px;
+        border-bottom: dotted 2px;
+        padding-left: 1vw;
+        padding-right: 1vw;
+        font-size: 0.8rem;
+        margin-bottom: 2vw;
+    }
+</style>
+<table class="table" style="table-layout:fixed">
     <tr>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["IdSortParam"]" asp-route-search="@ViewData["SearchParam"]">Номер</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AddDateSortParam"]" asp-route-search="@ViewData["SearchParam"]">Дата добавления</a>
         </th>
         <th>
             <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-search="@ViewData["SearchParam"]">Название</a>
         </th>
         <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["DescriptionSortParam"]" asp-route-search="@ViewData["SearchParam"]">Описание</a>
+            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AuthorSortParam"]" asp-route-search="@ViewData["SearchParam"]">Автор</a>
         </th>
         <th>
             <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["YearSortParam"]" asp-route-search="@ViewData["SearchParam"]">Год</a>
@@ -21,33 +42,75 @@
         <th>
             <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["GenreSortParam"]" asp-route-search="@ViewData["SearchParam"]">Жанр</a>
         </th>
-        <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AddDateSortParam"]" asp-route-search="@ViewData["SearchParam"]">Дата добавления</a>
-        </th>
-        <th>
-            <a asp-action="BooksCollection" asp-route-sortOrder="@ViewData["AuthorSortParam"]" asp-route-search="@ViewData["SearchParam"]">Автор</a>
-        </th>
-        <th>Количество страниц</th><th>ISBN</th>
-        <th colspan="2">Манипуляция</th>
+        
     </tr>
-    @foreach (var book in Model.Book)
-    {
-<tr>
-    <td>@book.Id</td>
-    <td><a asp-action="Book" asp-controller="Library" asp-route-id="@book.Id">@book.Name</a></td>
-    <td>@book.Description</td>
-    <td>@book.Year</td>
-    <td>@book.Genre.Name</td>
-    <td>@book.AdditionDate</td>
-    <td>@book.Author.FullName</td>
-    <td>@book.PageCount</td>
-    <td>@book.ISBN</td>
-<td><a asp-action="UpdateBook" asp-route-id="@book.Id">Изменить</a></td>
-<td><a asp-action="DeleteBook" asp-route-id="@book.Id">Удалить</a></td>
-</tr>
-    }
 </table>
-<br/>
+
+@foreach (var book in Model.Book)
+{
+    <div style="margin-left: 2vw;">
+        <div class="book-header">
+            <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id"><i>@book.Author.FullName</i> — @book.Name</a>
+        </div>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="vertical-align: top" width="30%">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="nocover.jpg">
+                                            <img style="max-width: 100%; max-height: 100%; display:block"
+                                                 src="~/Server/Books/Images/@book.PathCover"
+                                                 align="left"
+                                                 alt="bookcover"
+                                                 itemprop="image" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td style="vertical-align: top; padding-left: 2vw;" width="70%">
+                        <span style="display: table">
+                            <p>
+                                <b>Автор:</b> @book.Author.FullName
+                                <br />
+                                <b>Название:</b> @book.Name
+                                <br />
+                                <b>Жанр:</b> @book.Genre.Name
+                                <br />
+                                <b>Количество страниц:</b> @book.PageCount
+                                <br />
+                                <b>Год:</b> @book.Year
+                                <br />
+                                <b>ISBN:</b> @book.ISBN
+                            </p>
+                            <p>
+                                <b>Аннотация на книгу «@book.Name»:</b>
+                                <br />
+                                <span>
+                                    @book.Description
+                                </span>
+                            </p>
+                            <br />
+                            <p>
+                                <a class="btn btn-default border-dark" asp-action="UpdateBook" asp-controller="Library" asp-route-id="@book.Id">Изменить</a>
+                                <a class="btn btn-default border-dark" asp-action="DeleteBook" asp-controller="Library" asp-route-id="@book.Id">Удалить</a>
+                            </p>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="book-footer">
+            <span>Добавлено @book.AdditionDate | Добавил: @book.Users.Login</span>
+            <span class="float-right">Количество комментариев: @book.Comments.Count()</span>
+        </div>
+    </div>
+}
+<br />
 
 <div style="margin-left: 1vw; margin-right: 1vw;">
     <div class="float-right">
