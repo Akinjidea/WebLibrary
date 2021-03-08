@@ -11,5 +11,6 @@ namespace WebLibrary.ViewModels.Books
     {
         public IEnumerable<Book> Book { get; set; }
         public PageViewModel PageViewModel { get; set; }
+        public SortViewModel SortViewModel { get; set; }
     }
 }

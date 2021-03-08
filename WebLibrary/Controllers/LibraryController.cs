@@ -60,13 +60,8 @@ namespace WebLibrary.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> BooksCollection(string search, string sortOrder, int page = 1)
+        public async Task<IActionResult> BooksCollection(string search, SortState sortOrder = SortState.DateDesc, int page = 1)
         {
-            ViewData["AddDateSortParam"] = string.IsNullOrEmpty(sortOrder) ? "addDate" : "";
-            ViewData["NameSortParam"] = sortOrder == "book" ? "book_desc" : "book";
-            ViewData["AuthorSortParam"] = sortOrder == "author" ? "author_desc" : "author";
-            ViewData["YearSortParam"] = sortOrder == "year" ? "year_desc" : "year";
-            ViewData["GenreSortParam"] = sortOrder == "genre" ? "genre_desc" : "genre";
             ViewData["SearchParam"] = search;
 
             int pageSize = 10;
@@ -83,45 +78,26 @@ namespace WebLibrary.Controllers
             var count = await source.CountAsync();
             var books = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            switch (sortOrder)
+            books = sortOrder switch
             {
-                case "book":
-                    books = books.OrderBy(a => a.Name).ToList();
-                    break;
-                case "book_desc":
-                    books = books.OrderByDescending(a => a.Name).ToList();
-                    break;
-                case "author":
-                    books = books.OrderBy(a => a.Author.FullName).ToList();
-                    break;
-                case "author_desc":
-                    books = books.OrderByDescending(a => a.Author.FullName).ToList();
-                    break;
-                case "year":
-                    books = books.OrderBy(a => a.Year).ToList();
-                    break;
-                case "year_desc":
-                    books = books.OrderByDescending(a => a.Year).ToList();
-                    break;
-                case "genre":
-                    books = books.OrderBy(a => a.Genre.Name).ToList();
-                    break;
-                case "genre_desc":
-                    books = books.OrderByDescending(a => a.Genre.Name).ToList();
-                    break;
-                case "addDate":
-                    books = books.OrderBy(a => a.AdditionDate).ToList();
-                    break;
-                default:
-                    books = books.OrderByDescending(a => a.AdditionDate).ToList();
-                    break;
-            }
+                SortState.BookAsc => books.OrderBy(a => a.Name).ToList(),
+                SortState.BookDesc => books.OrderByDescending(a => a.Name).ToList(),
+                SortState.AuthorAsc => books.OrderBy(a => a.Author.FullName).ToList(),
+                SortState.AuthorDesc => books.OrderByDescending(a => a.Author.FullName).ToList(),
+                SortState.YearAsc => books.OrderBy(a => a.Year).ToList(),
+                SortState.YearDesc => books.OrderByDescending(a => a.Year).ToList(),
+                SortState.GenreAsc => books.OrderBy(a => a.Genre.Name).ToList(),
+                SortState.GenreDesc => books.OrderByDescending(a => a.Genre.Name).ToList(),
+                SortState.DateAsc => books.OrderBy(a => a.AdditionDate).ToList(),
+                _ => books.OrderByDescending(a => a.AdditionDate).ToList()
+            };
 
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
             BookPageViewModel viewModel = new BookPageViewModel
             {
                 PageViewModel = pageViewModel,
-                Book = books
+                Book = books,
+                SortViewModel = new SortViewModel(sortOrder)
             };
 
             return View(viewModel);
