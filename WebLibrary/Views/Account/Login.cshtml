@@ -1,17 +1,21 @@
 ﻿@model WebLibrary.ViewModels.Accounts.LoginModel;
 
+@{
+    ViewBag.Title = "Войти";
+}
+
 
 <h2 align="center">Вход на сайт</h2>
 
 <form asp-action="Login" asp-controller="Account" asp-route-returnUrl="@ViewBag.ReturnUrl" asp-anti-forgery="true">
     <div class="form-group">
         <label asp-for="Email" class="control-label">Введите Email</label>
-        <input type="text" asp-for="Email" class="form-control"/>
+        <input type="text" asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" />
     </div>
     <div class="form-group">
         <label asp-for="Password" class="control-label">Введите пароль</label>
-        <input type="password" asp-for="Password" class="form-control"/>
+        <input type="password" asp-for="Password" class="form-control" />
         <span asp-validation-for="Password" />
     </div>
     <div align="center" class="form-group">

@@ -1,4 +1,7 @@
 ﻿@model WebLibrary.ViewModels.Books.BookComments;
+@{ 
+    ViewData["Title"] = @Model.Book.Name;
+}
 
 <style>
     .container {
@@ -57,7 +60,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <a href="nocover.jpg">
+                                <a asp-action="book" asp-controller="library" asp-route-id="@Model.Book.Id">
                                     <img style="max-width: 100%; max-height: 100%; display:block" 
                                          src="~/Server/Books/Images/@Model.Book.PathCover"
                                          align="left"

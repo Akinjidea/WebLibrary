@@ -1,11 +1,15 @@
 ﻿@model WebLibrary.Models.Users.User
+@{
+    ViewData["Title"] = "Профиль";
+}
 
-<p align="center">Персональный номер пользователя - @Model.Id</p>
-<p align="center">Имя пользователя - @Model.FirstName</p>
-<p align="center">Фамилия пользователя - @Model.LastName</p>
-<p align="center">Возраст пользователя - @Model.Age</p>
-<p align="center">Электронная почта пользователя - @Model.Email</p>
-<p align="center">Количество добавленных книг пользователем - @ViewData["TotalBooks"]</p>
+
+<p>Персональный номер пользователя - @Model.Id</p>
+<p>Имя пользователя - @Model.FirstName</p>
+<p>Фамилия пользователя - @Model.LastName</p>
+<p>Возраст пользователя - @Model.Age</p>
+<p>Электронная почта пользователя - @Model.Email</p>
+<p>Количество добавленных книг пользователем - @ViewData["TotalBooks"]</p>
 
 <div align="center">
 <a asp-controller="Account" asp-action="Logout">

@@ -1,5 +1,9 @@
 ﻿@model WebLibrary.ViewModels.Accounts.RegisterModel
 
+@{
+    ViewBag.Title = "Регистрация";
+}
+
 <form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
     <div class="form-group">
         <label asp-for="FirstName" class="control-label">Введите имя</label>
