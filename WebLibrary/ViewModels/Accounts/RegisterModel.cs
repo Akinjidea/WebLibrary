@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,6 +28,9 @@ namespace WebLibrary.ViewModels.Accounts
         [Required(ErrorMessage = "Не указан пароль!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public IFormFile FormPicture { get; set; }
+        public string PathAvatar { get; set; }
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage ="Пароли разные!")]

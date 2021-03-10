@@ -342,3 +342,5 @@ healthchecksdb
 # Images upload to the server
 /WebLibrary/wwwroot/Server/Books/Images/*
 !/WebLibrary/wwwroot/Server/Books/Images/nocover.jpg
+/WebLibrary/wwwroot/Server/Users/Images/*
+!/WebLibrary/wwwroot/Server/Users/Images/noavatar.png

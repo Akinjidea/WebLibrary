@@ -2,17 +2,68 @@
 @{
     ViewData["Title"] = "Профиль";
 }
+<style>
+    .item-picture {
+        width: 200px;
+        min-height: 200px;
+        max-height: unset;
+        float: left;
+        margin: 3px;
+        padding: 3px;
+    }
 
+    .item-picture > img {
+        max-width: 100%;
+        height: auto;
+    }    
+</style>
 
-<p>Персональный номер пользователя - @Model.Id</p>
-<p>Имя пользователя - @Model.FirstName</p>
-<p>Фамилия пользователя - @Model.LastName</p>
-<p>Возраст пользователя - @Model.Age</p>
-<p>Электронная почта пользователя - @Model.Email</p>
-<p>Количество добавленных книг пользователем - @ViewData["TotalBooks"]</p>
-
-<div align="center">
-<a asp-controller="Account" asp-action="Logout">
-    <input type="button" class="btn btn-default border-dark" value="Выйти из системы" />
-</a>
-</div>
+<table style="margin-left: 2vw;">
+    <tbody>
+        <tr>
+            <td style="vertical-align: top; min-width: 30%; max-width: 30%" width="30%">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-picture">
+                                    <img class="img-circle" style="max-width: 100%; max-height: 100%; display:block"
+                                         src="~/Server/Users/Images/@Model.PathAvatar"
+                                         align="left"
+                                         alt="Аватар пользователя"
+                                         itemprop="image" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td style="vertical-align: top; padding-left: 2vw;" width="70%">
+                <span style="display: table">
+                    <br />
+                    <p>
+                        <b><span style="font-size:2rem">Данные о пользователе</span></b>
+                        <br />
+                        <br />
+                        <b>Персональный номер:</b> @Model.Id
+                        <br />
+                        <b>Имя пользователя:</b> @Model.FirstName
+                        <br />
+                        <b>Фамилия пользователя:</b> @Model.LastName
+                        <br />
+                        <b>Возраст пользователя:</b> @Model.Age
+                        <br />
+                        <b>Электронная почта пользователя:</b> @Model.Email
+                        <br />
+                        <b>Количество добавленных книг пользователем:</b> @ViewData["TotalBooks"]
+                    </p>
+                    <p align="center">
+                        <a asp-controller="Account" asp-action="Logout">
+                            <input type="button" class="btn btn-default border-dark" value="Выйти из системы" />
+                        </a>
+                    </p>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

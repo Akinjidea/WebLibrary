@@ -4,7 +4,7 @@
     ViewBag.Title = "Регистрация";
 }
 
-<form asp-action="Register" asp-controller="Account" asp-antiforgery="true">
+<form asp-action="Register" asp-controller="Account" asp-antiforgery="true" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="FirstName" class="control-label">Введите имя</label>
         <input type="text" asp-for="FirstName" class="form-control" />
@@ -39,6 +39,11 @@
         <label asp-for="ConfirmPassword" class="control-label">Подтвердите пароль</label>
         <input type="password" asp-for="ConfirmPassword" class="form-control" />
         <span asp-validation-for="ConfirmPassword" />
+    </div>
+    <div class="form-group">
+        <label asp-for="FormPicture" class="control-label">Выберите аватар</label>
+        <input type="file" asp-for="FormPicture" class="form-control" />
+        <span asp-validation-for="FormPicture"></span>
     </div>
     <div align="center" class="form-group">
         <input type="submit" value="Зарегистрироваться" class="btn btn-outline-dark" />

@@ -151,7 +151,7 @@ namespace WebLibrary.Controllers
                     newBook.PathCover = filename;
                 }
                 else newBook.PathCover = "nocover.jpg";
-                _db.Books.Add(newBook);
+                await _db.Books.AddAsync(newBook);
                 await _db.SaveChangesAsync();
                 
                 return RedirectToAction("BooksCollection");

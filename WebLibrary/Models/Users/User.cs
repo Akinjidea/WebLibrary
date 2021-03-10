@@ -20,6 +20,8 @@ namespace WebLibrary.Models.Users
         [Required]
         public string Login { get; set; }
         [Required]
+        public string PathAvatar { get; set; }
+        [Required]
         public string Password { get; set; }
 
         public List<Book> Books { get; set; } = new List<Book>();
