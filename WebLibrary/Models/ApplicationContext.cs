@@ -20,5 +20,12 @@ namespace WebLibrary.Models
         {
             Database.EnsureCreated();
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Comment>()
+                .HasOne(p => p.User)
+                .WithMany(t => t.Comments)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

@@ -83,36 +83,41 @@
                     <ul class="navbar-nav" style="width: 100%">
                         <li class="nav-item border-fullside text-light text-center" style="background-color: #3A89D2;"><h4 class="active">Категории</h4></li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="8">Боевики</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="1">Боевики</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="3">Детективы</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="2">Детективы</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="7">Драма</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="3">Драма</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="10">Исторический роман</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="4">Исторический роман</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="6">Классика</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="5">Классика</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="9">Научная фантастика</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="6">Научная фантастика</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="2">Приключения</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="7">Приключения</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="5">Романтика</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="8">Романтика</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="4">Триллеры</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="9">Триллеры</a>
                         </li>
                         <li class="nav-item border-fullside left-menu-hover">
-                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="1">Фэнтези</a>
+                            <a class="nav-link active" asp-controller="categories" asp-action="list" asp-route-id="10">Фэнтези</a>
                         </li>
                     </ul>
+                    <div style="margin-top: 2vw; margin-left: auto; margin-right:auto">
+                        <a  asp-controller="Library" asp-action="AddBook">
+                            <input type="button" class="btn btn-default border-dark" value="Добавить книгу" />
+                        </a>
+                    </div>
                 </nav>
             </div>
             <div class="col-md-9">                

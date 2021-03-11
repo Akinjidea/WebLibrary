@@ -33,7 +33,7 @@ namespace WebLibrary.Controllers
             BookComments currentBook = new BookComments { Book = await _db.Books.Include(p => p.Author).Include(p => p.Genre).FirstOrDefaultAsync(p => p.Id == id) };
             if (currentBook.Book != null)
             {
-                currentBook.Comments = await _db.Comments.Where(i => i.BookId==id).OrderByDescending(i => i.PublicationDate).ToListAsync();
+                currentBook.Comments = await _db.Comments.Where(i => i.BookId==id).Include(i => i.User).OrderByDescending(i => i.PublicationDate).ToListAsync();
                 return View(currentBook);
             }
                 
@@ -48,7 +48,7 @@ namespace WebLibrary.Controllers
             {
                 _db.Comments.Add(new Comment
                 {
-                    Author = User.Identity.Name,
+                    UserId = _db.Users.Where(i => i.Email == User.Identity.Name).Select(i => i.Id).FirstOrDefault(),
                     Content = bookComments.NewComment.Content,
                     PublicationDate = DateTime.Now,
                     BookId = id
