@@ -172,7 +172,6 @@ namespace WebLibrary.Controllers
                     Year = b.Year,
                     PageCount = b.PageCount,
                     ISBN = b.ISBN,
-                    PathCover = b.PathCover,
                     Genre = b.GenreId, 
                     Author = b.Author.FullName
                 }).FirstOrDefaultAsync();
@@ -215,8 +214,8 @@ namespace WebLibrary.Controllers
                 book.AuthorId = hasAuthor.Id;
 
                 string folderPath = _appEnvironment.WebRootPath + "/Server/Books/Images/";
-                if (bookModel.PathCover != "nocover.jpg" && System.IO.File.Exists(folderPath + bookModel.PathCover))
-                    System.IO.File.Delete(folderPath + bookModel.PathCover);
+                if (book.PathCover != "nocover.jpg" && System.IO.File.Exists(folderPath + book.PathCover))
+                    System.IO.File.Delete(folderPath + book.PathCover);
 
                 if (bookModel.CoverBook != null)
                 {

@@ -58,6 +58,9 @@
                         <b>Количество добавленных книг пользователем:</b> @ViewData["TotalBooks"]
                     </p>
                     <p align="center">
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">
+                            <input type="button" class="btn btn-default border-dark" value="Изменить профиль" />
+                        </a>
                         <a asp-controller="Account" asp-action="Logout">
                             <input type="button" class="btn btn-default border-dark" value="Выйти из системы" />
                         </a>

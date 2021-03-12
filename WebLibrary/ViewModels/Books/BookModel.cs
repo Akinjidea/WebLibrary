@@ -33,6 +33,5 @@ namespace WebLibrary.ViewModels.Books
         public string ISBN { get; set; }
 
         public IFormFile CoverBook { get; set; }
-        public string PathCover { get; set; }
     }
 }

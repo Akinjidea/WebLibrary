@@ -1,0 +1,15 @@
+﻿@model WebLibrary.ViewModels.Accounts.Profiles.EditUserModel;
+@{
+    ViewBag.Title = "Редактирование профиля";
+}
+
+<form asp-action="Edit" asp-controller="Home" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="UserAvatar" class="control-label">Выберите новый аватар для профиля</label>
+        <input type="file" asp-for="UserAvatar" class="form-control" />
+        <span asp-validation-for="UserAvatar"></span>
+    </div>
+    <div align="center" class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-default border-dark" />
+    </div>
+</form>
