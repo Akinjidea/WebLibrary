@@ -60,9 +60,10 @@ namespace WebLibrary.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> BooksCollection(string search, SortState sortOrder = SortState.DateDesc, int page = 1)
+        public async Task<IActionResult> BooksCollection(string search, SortState sortOrder = SortState.DateDesc, string view = "list", int page = 1)
         {
             ViewData["SearchParam"] = search;
+            ViewData["ViewType"] = view;
 
             int pageSize = 10;
             IQueryable<Book> source = !string.IsNullOrEmpty(search) ? source = _db.Books

@@ -4,103 +4,46 @@
     ViewBag.Title = "Библиотека";
 }
 
-<style>
-    .buttons-header {
-        margin-left: 2vw;
-        margin-right: 2vw;
-        margin-bottom: 2vw;
-        padding: 0.5vw;
-        border: solid 1.5px;
-        border-color: cornflowerblue;
-    }
-
-        .buttons-header > a {
-            display: inline-block;
-            padding: 0.3vw 1vw 0.3vw;
-            margin: 0 0.5vw 0;
-        }
-
-            .buttons-header > a:hover {
-                background: #3A89D2;
-                color: white;
-            }
-
-            .buttons-header-main {
-                background: #3A89D2;
-                color: white;
-            }
-
-    .book-header {
-        color: black;
-        margin-bottom: 1vw;
-        font-size: 1.4rem;
-        font-weight: bold;
-    }
-
-        .book-header a {
-            color: black;
-        }
-
-    .book-footer {
-        margin-top: 0.5vw;
-        border-top: dotted 2px;
-        border-bottom: dotted 2px;
-        padding-left: 1vw;
-        padding-right: 1vw;
-        font-size: 0.8rem;
-        margin-bottom: 2vw;
-    }
-
-    @@font-face {
-        font-family: 'FontAwesome';
-        src: url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2') format('woff2'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.woff') format('woff'), url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal
-    }
-
-    .glyphicon {
-        display: inline-block;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale
-    }
-
-    .glyphicon-chevron-down:before {
-        content: "\f078";   
-    }
-
-    .glyphicon-chevron-up:before {
-        content: "\f077";
-    }
-</style>
-<div class="buttons-header">
-    <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]"
-                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.DateSort">
-        Дата добавления
-    </sort-header>
-    <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]"
-                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.BookSort">
-        Название
-    </sort-header>
-    <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]"
-                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.AuthorSort">
-        Автор
-    </sort-header>
-    <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]"
-                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.YearSort">
-        Год написания
-    </sort-header>
-    <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]"
-                 current="@Model.SortViewModel.Current" property="@Model.SortViewModel.GenreSort">
-        Жанр
-    </sort-header>
+<div class="row buttons-header">
+    <div class="col-md-9">
+        <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]" view="@ViewData["ViewType"]"
+                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.DateSort">
+            Дата добавления
+        </sort-header>
+        <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]" view="@ViewData["ViewType"]"
+                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.BookSort">
+            Название
+        </sort-header>
+        <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]" view="@ViewData["ViewType"]"
+                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.AuthorSort">
+            Автор
+        </sort-header>
+        <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]" view="@ViewData["ViewType"]"
+                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.YearSort">
+            Год написания
+        </sort-header>
+        <sort-header action="BooksCollection" up="@Model.SortViewModel.Up" search="@ViewData["SearchParam"]" view="@ViewData["ViewType"]"
+                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.GenreSort">
+            Жанр
+        </sort-header>
+    </div>
+    <div class="col-auto ml-auto">
+        <a asp-action="BooksCollection" asp-route-search="@ViewData["SearchParam"]" asp-route-view="list">
+            <b class="fa fa-list"></b>
+        </a>
+        <a asp-action="BooksCollection" asp-route-search="@ViewData["SearchParam"]" asp-route-view="title">
+            <b class="fa fa-th"></b>
+        </a>
+        <a asp-action="BooksCollection" asp-route-search="@ViewData["SearchParam"]" asp-route-view="table">
+            <b class="fa fa-align-justify"></b>
+        </a>
+    </div>
 </div>
+
 @foreach (var book in Model.Book)
 {
     <div style="margin-left: 2vw;">
-        <div class="book-header">
+        <div class="book-header-list">
             <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id"><i>@book.Author.FullName</i> — @book.Name</a>
         </div>
         <table>
@@ -155,18 +98,20 @@
                 </tr>
             </tbody>
         </table>
-        <div class="book-footer">
+        <div class="book-footer-list">
             <span>Добавлено @book.AdditionDate | Добавил: @book.Users.Login</span>
             <span class="float-right">Количество комментариев: @book.Comments.Count()</span>
         </div>
     </div>
 }
+
 <br />
+
 <div style="margin-left: 1vw; margin-right: 1vw;">
     <div class="float-left">
         @if (Model.PageViewModel.HasPreviousPage)
         {
-            <a asp-action="BooksCollection"
+            <a asp-action="BooksCollection" asp-route-search="@ViewData["SearchParam"]" asp-route-view="@ViewData["ViewType"]"
                asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                class="btn btn-outline-dark">
                 Назад
@@ -174,7 +119,7 @@
         }
         @if (Model.PageViewModel.HasNextPage)
         {
-            <a asp-action="BooksCollection"
+            <a asp-action="BooksCollection" asp-route-search="@ViewData["SearchParam"]" asp-route-view="@ViewData["ViewType"]"
                asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                class="btn btn-outline-dark">
                 Вперед
@@ -182,7 +127,5 @@
         }
     </div>
 </div>
-<script>
-    $(".buttons-header > a:has(i)").addClass("buttons-header-main");
-</script>
+<script src="~/js/libraryPage/books.js"></script>
 

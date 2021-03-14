@@ -18,6 +18,7 @@ namespace WebLibrary.TagHelpers
         public string Action { get; set; }
         public bool Up { get; set; }
         public string Search { get; set; }
+        public string View { get; set; }
 
         private IUrlHelperFactory urlHelperFactory;
         public SortHeaderTagHelper(IUrlHelperFactory helperFactory)
@@ -33,18 +34,15 @@ namespace WebLibrary.TagHelpers
         {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "a";
-            string url = urlHelper.Action(Action, new { sortOrder = Property, search = Search });
+            string url = urlHelper.Action(Action, new { sortOrder = Property, search = Search, view = View });
             output.Attributes.SetAttribute("href", url);
-            // если текущее свойство имеет значение CurrentSort
             if (Current == Property)
             {
                 TagBuilder tag = new TagBuilder("i");
-                tag.AddCssClass("glyphicon");
-
-                if (Up == true)   // если сортировка по возрастанию
-                    tag.AddCssClass("glyphicon-chevron-up");
-                else   // если сортировка по убыванию
-                    tag.AddCssClass("glyphicon-chevron-down");
+                tag.AddCssClass("fas");
+                if (Up == true)
+                    tag.AddCssClass("fa-chevron-up");
+                else tag.AddCssClass("fa-chevron-down");
 
                 output.PreContent.AppendHtml(tag);
             }
