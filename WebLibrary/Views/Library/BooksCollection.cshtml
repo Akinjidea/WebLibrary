@@ -39,11 +39,12 @@
         </a>
     </div>
 </div>
-
-@foreach (var book in Model.Book)
+@if ((string)ViewData["ViewType"] != "table" && (string)ViewData["ViewType"] != "title")
 {
+    @foreach (var book in Model.Book)
+    { 
     <div style="margin-left: 2vw;">
-        <div class="book-header-list">
+        <div id="book-header-list">
             <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id"><i>@book.Author.FullName</i> — @book.Name</a>
         </div>
         <table>
@@ -98,12 +99,57 @@
                 </tr>
             </tbody>
         </table>
-        <div class="book-footer-list">
+        <div id="book-footer-list">
             <span>Добавлено @book.AdditionDate | Добавил: @book.Users.Login</span>
             <span class="float-right">Количество комментариев: @book.Comments.Count()</span>
         </div>
     </div>
+    }
 }
+@if((string)ViewData["ViewType"] == "table")
+{
+<div id="books-table">
+    <table class="table table-bordered">
+        <tbody>
+            @foreach (var book in Model.Book)
+            {
+            <tr>
+                <td style="width: 1px">
+                    <a href="nocover.jpg">
+                        <img style="max-width: 50px; max-height: 50px; display:block"
+                             src="~/Server/Books/Images/@book.PathCover"
+                             align="left"
+                             alt="bookcover"
+                             itemprop="image" />
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id">
+                        @book.Name
+                    </a>
+                </td>
+                <td>
+                    @book.Author.FullName
+                </td>
+                <td>
+                    @book.Year
+                </td>
+                <td>
+                    @book.Genre.Name
+                </td>
+                <td>
+                    @book.AdditionDate.ToString("dd MMMM, yyyy")
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
+ @if((string)ViewData["ViewType"] == "title")
+ {
+
+ }
 
 <br />
 

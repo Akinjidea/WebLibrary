@@ -28,18 +28,18 @@
 
 /*----------------------------------------------*/
 
-.book-header-list {
+#book-header-list {
     color: black;
     margin-bottom: 1vw;
     font-size: 1.4rem;
     font-weight: bold;
 }
 
-    .book-header-list a {
+    #book-header-list a {
         color: black;
     }
 
-.book-footer-list {
+#book-footer-list {
     margin-top: 0.5vw;
     border-top: dotted 2px;
     border-bottom: dotted 2px;
@@ -48,3 +48,25 @@
     font-size: 0.8rem;
     margin-bottom: 2vw;
 }
+
+/*--------------------------------------------------*/
+
+#books-table {
+    padding: 0 2vw 0;
+}
+
+.table-bordered {
+    border: 1px solid rgba(58, 137, 210, .2);
+
+}
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid rgba(58, 137, 210, .2);
+    }
+
+#books-table a {
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
