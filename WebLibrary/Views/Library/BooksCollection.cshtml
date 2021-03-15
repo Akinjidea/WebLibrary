@@ -55,7 +55,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <a href="nocover.jpg">
+                                        <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id">
                                             <img style="max-width: 100%; max-height: 100%; display:block"
                                                  src="~/Server/Books/Images/@book.PathCover"
                                                  align="left"
@@ -115,7 +115,7 @@
             {
             <tr>
                 <td style="width: 1px">
-                    <a href="nocover.jpg">
+                    <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id">
                         <img style="max-width: 50px; max-height: 50px; display:block"
                              src="~/Server/Books/Images/@book.PathCover"
                              align="left"
@@ -146,9 +146,29 @@
     </table>
 </div>
 }
- @if((string)ViewData["ViewType"] == "title")
+ @if ((string)ViewData["ViewType"] == "title")
  {
-
+<div class="row" style="margin-left: 2vw; margin-right: 2vw">
+    @foreach (var book in Model.Book)
+    {
+    <div class="col-md-3 text-center">
+        <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id">
+            <img style="width: auto; height: 220px; display: block; margin: 0 auto;"
+                 src="~/Server/Books/Images/@book.PathCover"
+                 alt="bookcover"
+                 itemprop="image" />
+        </a>
+        <a asp-controller="Library" asp-action="Book" asp-route-id="@book.Id">
+            @book.Name
+        </a>
+        <p>
+            @book.Author.FullName
+        <br />
+        @book.Genre.Name
+    </p>
+    </div>
+    }
+</div>
  }
 
 <br />

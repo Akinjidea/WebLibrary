@@ -64,8 +64,7 @@ namespace WebLibrary.Controllers
         {
             ViewData["SearchParam"] = search;
             ViewData["ViewType"] = view;
-
-            int pageSize = 10;
+            int pageSize = view == "list" ? 10 : 20;
             IQueryable<Book> source = !string.IsNullOrEmpty(search) ? source = _db.Books
                 .Include(a => a.Author)
                 .Include(a => a.Genre)
